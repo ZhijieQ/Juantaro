@@ -56,7 +56,7 @@ client.on("message", async msg => {
 	await commands.executeCmd(msg, args)
 
 	if (msg.content === "Hello"){
-		util.send(msg, `Hello pvto ${msg.author}!`)
+		util.send(msg, `Hello prro ${msg.author}!`)
 	}
 
 	/*if (msg.content.toLowerCase().startsWith("test")){
