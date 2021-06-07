@@ -83,7 +83,11 @@ client.on("message", async msg => {
 	}
 	await commands.executeCmd(msg, args)
 
-	
+
+	if (msg.content === "Hello"){
+		util.send(msg, `Hello prro ${msg.author}!`)
+	}
+
 
 	/*if (msg.content.toLowerCase().startsWith("test")){
 		//console.log(msg.author)
@@ -95,7 +99,28 @@ client.on("message", async msg => {
 			util.send(msg, `Fuck you ${msg.author}!`)
 		}
 	}*/
-})
+
+	if (msg.content === "sije es puto?"){
+		util.send(msg, `No lo es xd`)
+	}
+
+	if (msg.content.startsWith("clear")) {
+		/*if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
+      return msg.channel.send(
+          "You cant use this command since you're missing `manage_messages` perm",
+        );
+		}*/
+		const number = Number(msg.content.trim().split(/\s+/)[1])
+		if(!number){
+			maxNumber = 100
+		}else{
+			maxNumber = Math.min(number+1, 100)
+		}
+		msg.channel.bulkDelete(maxNumber)
+					.then(messages => console.log(`Bulk deleted ${messages.size} messages`))
+					.catch(console.error);
+	}
+
 
 server.keepAlive()
 client.login(TOKEN)
