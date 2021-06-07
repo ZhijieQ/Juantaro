@@ -71,7 +71,7 @@ client.on("message", async msg => {
 	}*/
 
 	if (msg.content === "sije es puto?"){
-		util.send(msg, `Si lo es xd`)
+		util.send(msg, `No lo es xd`)
 	}
 
 	if (msg.content.startsWith("clear")) {
