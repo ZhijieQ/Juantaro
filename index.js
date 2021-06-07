@@ -40,6 +40,34 @@ client.on("message", async msg => {
 	// If bot, return
 	if (msg.author.bot) return;
 
+	if (!msg.content.toLowerCase().startsWith(prefix)){
+		if (msg.content === "Hello"){
+			util.send(msg, `Hello ${msg.author}!`)
+		}
+
+		if (msg.content === "sije es puto?"){
+			util.send(msg, `Si lo es xd`)
+		}
+
+		if (msg.content.startsWith("clear")) {
+			/*if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
+				return msg.channel.send(
+						"You cant use this command since you're missing `manage_messages` perm",
+					);
+			}*/
+			const number = Number(msg.content.trim().split(/\s+/)[1])
+			if(!number){
+				maxNumber = 100
+			}else{
+				maxNumber = Math.min(number+1, 100)
+			}
+			msg.channel.bulkDelete(maxNumber)
+						.then(messages => console.log(`Bulk deleted ${messages.size} messages`))
+						.catch(console.error);
+		}
+		return;
+	}
+
 	// Get the arguments
 	let args = msg.content.slice(prefix.length)
 
@@ -49,15 +77,13 @@ client.on("message", async msg => {
 	}
 
 	let result = await commands.checkValidCmd(msg, args, prefix);
-	
 	if(!result){
-		util.send(msg, lang.error.noArgs.cmd)
+		util.send(msg, lang.error.incoArgs.cmd)
+		return
 	}
 	await commands.executeCmd(msg, args)
 
-	if (msg.content === "Hello"){
-		util.send(msg, `Hello ${msg.author}!`)
-	}
+	
 
 	/*if (msg.content.toLowerCase().startsWith("test")){
 		//console.log(msg.author)
@@ -69,27 +95,6 @@ client.on("message", async msg => {
 			util.send(msg, `Fuck you ${msg.author}!`)
 		}
 	}*/
-
-	if (msg.content === "sije es puto?"){
-		util.send(msg, `Si lo es xd`)
-	}
-
-	if (msg.content.startsWith("clear")) {
-		/*if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
-      return msg.channel.send(
-          "You cant use this command since you're missing `manage_messages` perm",
-        );
-		}*/
-		const number = Number(msg.content.trim().split(/\s+/)[1])
-		if(!number){
-			maxNumber = 100
-		}else{
-			maxNumber = Math.min(number+1, 100)
-		}
-		msg.channel.bulkDelete(maxNumber)
-					.then(messages => console.log(`Bulk deleted ${messages.size} messages`))
-					.catch(console.error);
-	}
 })
 
 server.keepAlive()

@@ -302,9 +302,9 @@ module.exports = {
 	 */
   checkPerms: function(msg, permLvl){
 		// Valide the developer member
-		for(var index in config.superusers) {
-			console.log(config.superusers[index])
-			if (msg.author.id === config.superusers[index]){
+		for(var superuser of config.superusers) {
+			// console.log(superuser)
+			if (msg.author.id === superuser){
 				return true;
 			}
 		}
