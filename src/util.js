@@ -1,18 +1,15 @@
 function getConfig() {
-  return require('./config.js')
+  return require('../config.js')
 }
 
-function getLanguage(name) {
-	if (name == undefined){
-		return require("./languages/EN-en.json");
-	}
-
-	let language = name.toLowerCase();
+function getLanguage() {
+	const config = getConfig();
+	const language = config.language.toLocaleLowerCase();
 	var lang;
 	if (language === "english") {
-		lang = require("./languages/EN-en.json");
+		lang = require("../languages/EN-en.json");
 	}else if(language === "spanish"){
-		lang = require("./languages/ES-es.json")
+		lang = require("../languages/ES-es.json")
 	}
   return lang;
 }

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const util = require('./src/util.js');
+const util = require('./util.js');
 const config = util.getConfig();
 const lang = util.getLanguage();
 

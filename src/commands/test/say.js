@@ -1,12 +1,12 @@
 // const commands because commands contains the class Command and Argument
 const commands = require('../../../commands.js')
-const lang = require("../../../util").getLanguage()
+const lang = require("../../util").getLanguage()
 
 module.exports = class SayCommand extends commands.Command {
   constructor(){
     super({
       name: 'say',
-      aliases: ['s'],
+      aliases: ['s', 'Say'],
       args: [
         new commands.Argument({
           optional: false,	// Require the argument

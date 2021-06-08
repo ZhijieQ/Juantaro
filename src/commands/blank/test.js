@@ -5,7 +5,7 @@ module.exports = class TestCommand extends Command {
   constructor(){
     super({
       name: 'test',
-      aliases: [],
+      aliases: ['Test'],
 			args: [],
       category: 'blank',
       priority: 9,
@@ -14,7 +14,7 @@ module.exports = class TestCommand extends Command {
   }
   execute(msg){
     const name = msg.content.trim().split(/\s+/)[1]
-		//console.log(name)
+
 		if (name) {
 		  msg.channel.send(`Fuck you ${name}!`)
 		}else{

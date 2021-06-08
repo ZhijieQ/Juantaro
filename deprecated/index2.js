@@ -5,7 +5,7 @@ const {
 const fetch = require("node-fetch")
 const Database = require("@replit/database")
 const server = require("./src/server")
-const util = require("./src/util")
+const util = require("./util")
 const fs = require('fs')
 const commands = require("./commands.js")
 
@@ -16,25 +16,22 @@ const config = util.getConfig()
 const lang = util.getLanguage();
 const TOKEN = process.env["TOKEN"]
 
-let startTime = Date.now();
 let prefix = config.prefix;
 
 client.on("ready", () =>{
-	// Set bot Status (online, idle, invisible, dnd)
-	client.user.setStatus(config.status['online'])
+	console.log(`Logged in as ${client.user.tag}!`)
 
-	// Set bot activity
-	client.user.setActivity(config.statusBOT);
+	client.user.setStatus(config.status['online']) // online, idle, invisible, dnd
+	// console.log('Bot status: ', client.user.presence.status);
+
+	client.user.setActivity(config.activity)
 
 	// Register the category from config.js
- 	commands.registerCategories(config.categories);
-
+	commands.registerCategories(config.categories)
 	// Register all command from ./src/commands/
- 	commands.registerCommands();
+	commands.registerCommands()
 
- 	let time = Date.now() - startTime;
-	console.log(`Logged in as ${client.user.tag}! Used Time: ${time}ms`);
-	
+	/* Find iterate one by one */
 	//const testChannel = client.channels.find(x => x.name === 'test')
 	//console.log(testChannel)
 })
