@@ -34,69 +34,36 @@ class Command {
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-	//TODO: need to revise
   checkArgs(msg, msgArgs){
-		// Set valid to start
-    var valid = true;
-
-		/**
-		 * If the command dont need arguments, return valid true
-		 * If the command need arguments, need to check first
-		 */
-    if(this.args != undefined){
-
-			/** 
-			 * If the discord arguments is 0 and 
-			 * the command arguments that are not optional is defined,
-			 * means the sintax is bad.
-			 */
-      if(msgArgs.length == 0 && this.args.find(x => !x.optional) != undefined){
-        util.send(msg, lang.error.noArgs.arg);
-        return false;
-      }
-
       let index = 0
 			// For each argument commands
-      for(let cmdArg of this.args) {
-        console.log(cmdArg)
-				console.log(index)
-				console.log(cmdArg[index])
-				
-				// Check the index argment is defined
-        if(cmdArg[index] != undefined){
-					// Check if is optional
-          if(!cmdArg.optional) {
-            util.send(msg, cmdArg.missingError);
-            break;
-          }
+      for (let cmdArg of this.args) {
+        /**
+         * Now there are 4 possibilities:
+         *  - Its not a optional argument and there are not more message arguments,
+         *    that means the message is invalid.
+         *  - Its not a optional argument but there is a message argument,
+         *      * If Arg.checkArg() is true, increase the index to check next argument.
+         *      * If Arg.checkArg() is false, that means message is invalid.
+         *  - Its a optional argument and there are not more message arguments,
+         *    continue the loop without increase the index.
+         *  - Its a optional argument but there is a message argument:
+         *      * If Arg.checkArg() is true, increase the index to check next argument.
+         *      * If Arg.checkArg() is false, that means this optional argument 
+         *        is not in the message, so we dont increase the index 
+         *        but need to continue the loop.
+         * Extra: when we have a message argument,
+         * need to check if the type coincide, use Argument.checkArg() to check.
+         */
 
-				// Case if the argument is not defined
-        } else {
-					console.log(cmdArg.optional)
-					console.log(cmdArg.failOnInvalid)
-					console.log(cmdArg.breakOnValid)
-          // Check if is a valid argument
-          if (!cmdArg.checkArg(msg, msgArgs[index])) {
-						// If is not a valid argument, Check if is optional
-            if (!cmdArg.optional || cmdArg.failOnInvalid) {
-              //enviar un mensaje de error
-              util.send(msg, cmdArg.invalidError);
-              valid = false;
-              break;
-            }
-          } else {
-						// If is a valid argument, check if need to break
-            if (cmdArg.breakOnValid) {
-              break;
-            }
-            // Increment the counter for next argument of the message
-            index++;
-          }
+        if(msgArgs[index] && cmdArg.checkArg(msg, msgArgs[index])){
+          index++;
+        }else if(!cmdArg.optional){
+          util.send(msg, cmdArg.invalidError);
+          return false;
         }
-				console.log("\n")
       }
-    }
-    return valid;
+    return true;
   }
 }
 
@@ -127,7 +94,7 @@ class Argument {
   }
 
 	/**
-	 * The check argument function
+	 * The check argument coincide with the type
 	 * 
 	 * @param msg: the discord message
 	 * @param msgArgs: the arguments of the discord message
