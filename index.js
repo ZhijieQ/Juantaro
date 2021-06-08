@@ -15,7 +15,6 @@ const db = new Database()
 const config = util.getConfig()
 const lang = util.getLanguage("English");
 const TOKEN = process.env["TOKEN"]
-const mySecret = process.env['TOKEN']
 
 let prefix = config.prefix;
 
