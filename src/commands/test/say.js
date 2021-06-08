@@ -1,6 +1,8 @@
-// const commands because commands contains the class Command and Argument
 const commands = require('../../../commands.js')
-const lang = require("../../util").getLanguage()
+const discord = require('discord.js')
+const util = require("../../util")
+const lang = util.getLanguage()
+const config = util.getConfig()
 
 module.exports = class SayCommand extends commands.Command {
   constructor(){
@@ -20,6 +22,24 @@ module.exports = class SayCommand extends commands.Command {
       permLvl: 1
     });
   }
+
+	specificHelp(admin){
+		const embed = new discord.MessageEmbed()
+			.setTitle(`${util.capitalize(this.name)}`)
+			.setColor('YELLOW')
+			.setDescription(`The command **${this.name}` + 
+											'** makes bot to response you with same phrases.')
+			.addField('Permission:', config.permission[this.permLvl])
+			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
+			.addField('Aliases:', this.aliases) 
+			.addField('Argument:', '**-String:** the phrases.\n')
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+
+		return embed
+	}
+
   execute(msg, args){
     msg.channel.send(args.join(' '));
   }

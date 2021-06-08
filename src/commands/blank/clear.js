@@ -1,12 +1,13 @@
-// const commands because commands contains the class Command and Argument
 const commands = require('../../../commands.js')
-const lang = require("../../util").getLanguage()
+const discord = require('discord.js')
+const util = require("../../util")
+const lang = util.getLanguage()
 
 module.exports = class ClearCommand extends commands.Command {
   constructor(){
     super({
       name: 'clear',
-      aliases: ['Clear'],
+      aliases: ['Clear', 'clean', 'Clean'],
       args: [
         new commands.Argument({
           optional: true,
@@ -20,6 +21,25 @@ module.exports = class ClearCommand extends commands.Command {
       permLvl: 1
     });
   }
+
+	specificHelp(admin){
+		const embed = new discord.MessageEmbed()
+			.setTitle(`${util.capitalize(this.name)}`)
+			.setColor('YELLOW')
+			.setDescription(`The command **${this.name}` + 
+											'** is use for clean the message.')
+			.addField('Permission:', config.permission[this.permLvl])
+			.addField('Prefix:', `None`)
+			.addField('Aliases:', this.aliases)
+			.addField('Argument:', '**-None:** clean 100 message.\n' +
+														 '**-Number:** clean number message.')
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+
+		return embed
+	}
+
   execute(msg, args){
 		const number = Number(args[0])
 		var maxNumber;

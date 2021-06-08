@@ -15,9 +15,16 @@ module.exports = {
 		{name: 'blank', priority: 8}
   ],
   groups: [
-  {name: "User", permLvl: 0}, 
-  {name: "Member", permLvl: 1},
-  {name: "Mod", permLvl: 2},
-  {name: "Admin", permLvl: 3}],
+		{name: "User", permLvl: 0}, 
+		{name: "Member", permLvl: 1},
+		{name: "Mod", permLvl: 2},
+		{name: "Admin", permLvl: 3}
+	],
+	permission: {
+		0: "User",
+		1: "Member",
+		2: "Mod",
+		3: "Admin"
+	},
 	language: "English",
 }

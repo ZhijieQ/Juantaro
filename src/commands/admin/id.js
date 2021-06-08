@@ -1,5 +1,8 @@
 const commands = require('../../../commands.js')
-const lang = require('../../util.js').getLanguage();
+const discord = require('discord.js')
+const util = require("../../util")
+const lang = util.getLanguage()
+const config = util.getConfig()
 
 module.exports = class IdCommand extends commands.Command {
   constructor(){
@@ -19,6 +22,25 @@ module.exports = class IdCommand extends commands.Command {
       permLvl: 3
     });
   }
+
+	specificHelp(admin){
+		const embed = new discord.MessageEmbed()
+			.setTitle(`${util.capitalize(this.name)}`)
+			.setColor('YELLOW')
+			.setDescription(`The command **${this.name}` + 
+											'** is use for get the Id of the **User**')
+			.addField('Permission:', config.permission[this.permLvl])
+			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
+			.addField('Aliases:', this.aliases) 
+			.addField('Argument:', '**-None:** get **Author Id **.\n' +
+														 '**-@someon:** get Id of **@someone**.')
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+
+		return embed
+	}
+
   execute(msg, args){
 		var mentions = [];
 

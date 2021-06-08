@@ -18,6 +18,10 @@ function send(msg, text) {
 	msg.channel.send(text)
 }
 
+function capitalize(sentence){
+		return sentence[0].toUpperCase() + sentence.slice(1)
+	}
+
 async function getUsers(msg) {
 	users = msg.mentions.users
 	/*const id = users.forEach( (value, key) => {
@@ -31,5 +35,6 @@ module.exports = {
 	getConfig,
 	send,
 	getLanguage,
-	getUsers
+	getUsers,
+	capitalize
 }

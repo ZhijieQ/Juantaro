@@ -65,6 +65,19 @@ class Command {
       }
     return true;
   }
+
+	help(){
+		var help = `${this.name}, ${this.aliases.join(", ")}`
+		/*var help = 'Prefix j-/J-\n' +
+							 `${this.name}, ${this.aliases.join(", ")}`*/
+		return help
+	}
+
+	specificHelp(admin){
+		var help = `This command doesn't have a specific help.\n` +
+							 `Pls, contact with ${admin} as soon as possible!`
+		return help
+	}
 }
 
 /**
@@ -195,7 +208,7 @@ module.exports = {
   namesAliases: new Map(),
   commands: new Map(),
 	blankNamesAliases: new Map(),
-	blankCommand: new Map(),
+	blankCommands: new Map(),
 	categories: new Map(),
 
 	/**
@@ -266,7 +279,7 @@ module.exports = {
 
 							if (blank) {
 								// Set a blank command
-								this.blankCommand.set(command.name, command)
+								this.blankCommands.set(command.name, command)
 
 								// Set all alias
 								for (var alias of command.aliases){
@@ -345,7 +358,7 @@ module.exports = {
 
 		// Check if its a blank command
 		if (blank) {
-			command = this.blankCommand.get(name);
+			command = this.blankCommands.get(name);
 
 			// If there is no command, maybe is a alias
 			if(!command) {
