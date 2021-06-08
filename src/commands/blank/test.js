@@ -7,7 +7,7 @@ module.exports = class TestCommand extends Command {
       name: 'test',
       aliases: [],
 			args: [],
-      category: 'test',
+      category: 'blank',
       priority: 9,
       permLvl: 0
     });

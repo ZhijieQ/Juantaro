@@ -6,7 +6,7 @@ module.exports = class SayCommand extends commands.Command {
   constructor(){
     super({
       name: 'say',
-      aliases: [],
+      aliases: ['s'],
       args: [
         new commands.Argument({
           optional: false,	// Require the argument

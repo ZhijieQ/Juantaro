@@ -7,6 +7,7 @@ const Database = require("@replit/database")
 const server = require("./src/server")
 const util = require("./util")
 const fs = require('fs')
+const commands = require("./commands.js")
 
 
 const client = new Client()
@@ -17,8 +18,6 @@ const TOKEN = process.env["TOKEN"]
 const mySecret = process.env['TOKEN']
 
 let prefix = config.prefix;
-
-const commands = require('./commands.js')
 
 client.on("ready", () =>{
 	console.log(`Logged in as ${client.user.tag}!`)
@@ -42,49 +41,39 @@ client.on("message", async msg => {
 	// If bot, return
 	if (msg.author.bot) return;
 
-	if (!msg.content.toLowerCase().startsWith(prefix)){
-		if (msg.content === "Hello"){
-			util.send(msg, `Hello ${msg.author}!`)
-		}
+	/*if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
+		return msg.channel.send(
+				"You cant use this command since you're missing `manage_messages` perm",
+			);
+	}*/
 
-		if (msg.content === "sije es puto?"){
-			util.send(msg, `Si lo es xd`)
-		}
+	var args;
+	var blank = false;
 
-		if (msg.content.startsWith("clear")) {
-			/*if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
-				return msg.channel.send(
-						"You cant use this command since you're missing `manage_messages` perm",
-					);
-			}*/
-			const number = Number(msg.content.trim().split(/\s+/)[1])
-			if(!number){
-				maxNumber = 100
-			}else{
-				maxNumber = Math.min(number+1, 100)
-			}
-			msg.channel.bulkDelete(maxNumber)
-						.then(messages => console.log(`Bulk deleted ${messages.size} messages`))
-						.catch(console.error);
-		}
-		return;
+	// Check if startsWith with Prefix
+	if (msg.content.toLowerCase().startsWith(prefix)){
+		args = msg.content.slice(prefix.length)
+	}else{
+		args = msg.content.slice()
+		blank = true;
 	}
-
-	// Get the arguments
-	let args = msg.content.slice(prefix.length)
-
+	
 	// Check if the arguments if defined
 	if(args != undefined){
 		args = args.split(' ');
 	}
 
-	let result = await commands.checkValidCmd(msg, args, prefix);
+	let result = await commands.checkValidCmd(msg, args, blank);
 	if(!result){
-		util.send(msg, lang.error.incoArgs.cmd)
-		return
+		// If the result is false and its not a 
+		// Blank Category command, its a error.
+		if (!blank){
+			util.send(msg, lang.error.incoArgs.cmd);
+		}
+		return;
 	}
-	await commands.executeCmd(msg, args)
 
+	await commands.executeCmd(msg, args, blank)
 })
 
 server.keepAlive()

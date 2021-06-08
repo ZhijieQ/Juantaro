@@ -192,9 +192,11 @@ module.exports = {
   Category: Category,
 
 	// Declarations of the variables
-  namesAliases: [],
-  categories: new Map(),
+  namesAliases: new Map(),
   commands: new Map(),
+	blankNamesAliases: new Map(),
+	blankCommand: new Map(),
+	categories: new Map(),
 
 	/**
 	 * Load the file
@@ -226,10 +228,16 @@ module.exports = {
 		// Read the commands dir
     var cmds = fs.readdirSync(`./src/commands/`);
 
+		var blank = false;
+
 		// Read each category(a module)
     for(var category of cmds){
 			// Read all file in the category
       var files = fs.readdirSync(`./src/commands/${category}`);
+
+			if (category === "blank") {
+				blank = true
+			}
 
       for(var file of files){
 				// Check if the file is a File
@@ -255,17 +263,36 @@ module.exports = {
 								// Remember that registerCategories() need a list of Categories
                 this.registerCategories([category])
               }
-             
-						  // Set a command
-              this.commands.set(command.name, command)
-							// There could be more than one alias, use ... for get all
-              this.namesAliases.push(command.name, ...command.aliases)
+
+							if (blank) {
+								// Set a blank command
+								this.blankCommand.set(command.name, command)
+
+								// Set all alias
+								for (var alias of command.aliases){
+									this.blankNamesAliases.set(alias, command)
+								}
+								
+							}else{
+								// Set a command
+								this.commands.set(command.name, command)
+
+								// Set all alias
+								for (var alias of command.aliases){
+									this.namesAliases.set(alias, command)
+								}
+							}
+
 							// Set command in the category
               this.categories.get(category).addCommand(command)
             }
           }
         }
       }
+
+			if (blank){
+				blank = false;
+			}
     }
   },
 	/**
@@ -295,6 +322,7 @@ module.exports = {
     }
     
 		// TODO: print the permissions to see the permission
+		// Suppose that all command has Member permission
     let userPermsLvl = 1;
     if(userPermsLvl >= permLvl){
       return true;
@@ -308,47 +336,64 @@ module.exports = {
 	 * Get the command by name
 	 * 
 	 * @param name: the name of the command
+	 * @param blank: True if it is a blank command
 	 * @return command: the command object
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-  getCmd: function(name){
-    var command = this.commands.get(name);
-    
-		// If does not get the command, maybe is the alias
-    if(!command) {
-      this.commands.forEach(function(aCmd){
-        if(aCmd.aliases.includes(name)){
-          command = aCmd;
-          return;
-        }
-      })
-    }
+  getCmd: function(name, blank){
+		var command;
+
+		// Check if its a blank command
+		if (blank) {
+			command = this.blankCommand.get(name);
+
+			// If there is no command, maybe is a alias
+			if(!command) {
+				command = this.blankNamesAliases.get(name)
+			}
+		}else{
+			command = this.commands.get(name);
+
+			// If there is no command, maybe is a alias
+			if(!command) {
+				command = this.namesAliases.get(name)
+			}
+
+			// If there is no command, maybe is a blank command
+			if(!command) {
+				command = this.blankCommand.get(name);
+			}
+
+			// If there is no command, maybe is a blank alias
+			if(!command) {
+				command = this.blankNamesAliases.get(name)
+			}
+		}
+
+		// Return the null command
     return command;
   },
 	/**
-	 * Check if the command is in the list
+	 * Check if the command is valid and 
+	 * check if has a permission
 	 * !Important: this is async function
 	 * 
 	 * @param msg: the discord message
 	 * @param args: the arguments of the message
-	 * @param prefix: the prefix of the command
+	 * @param blank: True if it is a blank command
 	 * @return boolena: True if is validated, False if not
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-  checkValidCmd: async function(msg, args, prefix){
-		// Get the command using first arguments
-    var command = this.getCmd(args[0]);
+  checkValidCmd: async function(msg, args, blank){
+		var command = this.getCmd(args[0], blank)
     
-		// First check if has prefix and then check the permision
-    if(msg.content.toLowerCase().startsWith(prefix) && command != null){
-      let result = this.checkPerms(msg, command.permLvl)
-      if(result){
-        return true;
-      }
-    }
-    
+		// Check if there is a command and the permision
+    if(command && this.checkPerms(msg, command.permLvl)){
+			return true;
+		}
+
     return false;
   },
 	/**
@@ -357,12 +402,15 @@ module.exports = {
 	 * 
 	 * @param msg: the discord message
 	 * @param args: the arguments of the message
+	 * @param blank: True if it is a blank command
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-  executeCmd: async function(msg, args){
-    let cmd = this.getCmd(args[0])
+  executeCmd: async function(msg, args, blank){
+    let cmd = this.getCmd(args[0], blank)
     arguments = args.slice(1)
+
+		// Check the Arguments first, and then execute
     if(cmd.checkArgs(msg, arguments)) {
      await cmd.execute(msg, arguments)
     }
