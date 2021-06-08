@@ -11,7 +11,7 @@ module.exports = {
   categories: [
     {name: 'test', priority: 5}, 
     {name: 'general', priority: 8},
-    {name: 'levels', priority: 8}
+    {name: 'levels', priority: 1}
   ],
   groups: [
   {name: "User", permLvl: 0}, 

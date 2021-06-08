@@ -58,10 +58,12 @@ class Command {
       let index = 0
 			// For each argument commands
       for(let cmdArg of this.args) {
-        console.log("A:" + cmdArg)
+        console.log(cmdArg)
+				console.log(index)
+				console.log(cmdArg[index])
+				
 				// Check the index argment is defined
         if(cmdArg[index] != undefined){
-					console.log("B:" + cmdArg[index])
 					// Check if is optional
           if(!cmdArg.optional) {
             util.send(msg, cmdArg.missingError);
@@ -70,13 +72,15 @@ class Command {
 
 				// Case if the argument is not defined
         } else {
+					console.log(cmdArg.optional)
+					console.log(cmdArg.failOnInvalid)
+					console.log(cmdArg.breakOnValid)
           // Check if is a valid argument
           if (!cmdArg.checkArg(msg, msgArgs[index])) {
 						// If is not a valid argument, Check if is optional
             if (!cmdArg.optional || cmdArg.failOnInvalid) {
               //enviar un mensaje de error
               util.send(msg, cmdArg.invalidError);
-             
               valid = false;
               break;
             }
@@ -89,6 +93,7 @@ class Command {
             index++;
           }
         }
+				console.log("\n")
       }
     }
     return valid;

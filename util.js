@@ -3,10 +3,14 @@ function getConfig() {
 }
 
 function getLanguage(name) {
+	if (name == undefined){
+		return require("./languages/EN-en.json");
+	}
+
 	let language = name.toLowerCase();
 	var lang;
 	if (language === "english") {
-		lang = require("./languages/ES-es.json");
+		lang = require("./languages/EN-en.json");
 	}else if(language === "spanish"){
 		lang = require("./languages/ES-es.json")
 	}
@@ -32,10 +36,3 @@ module.exports = {
 	getLanguage,
 	getUsers
 }
-
-
-
-/**
- * 
- * aaaa
- */
