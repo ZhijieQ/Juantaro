@@ -10,12 +10,8 @@ module.exports = class SayCommand extends commands.Command {
       args: [
         new commands.Argument({
           optional: false,	// Require the argument
+					type: "string",
           missingError: lang.error.noArgs.arg,
-          invalidError: lang.error.incoArgs.text
-        }),
-				new commands.Argument({
-          optional: false,	// Require the argument
-          missingError: "lang.error.noArgs.arg,",
           invalidError: lang.error.incoArgs.text
         })
       ],

@@ -104,7 +104,7 @@ class Argument {
 	 */
   checkArg(msg, msgArg){
     var valid = true;
-    
+
 		// Iterate each type
     switch(this.type) {
       case 'mention': 
@@ -117,7 +117,7 @@ class Argument {
         }
 
         break;
-      case 'int':
+      case 'number':
         if(!Number(msgArg)){
           valid = false;
         }
@@ -133,6 +133,11 @@ class Argument {
         }
 
         break;
+			case 'string':
+				break;
+
+			default:
+				return false;
     }
     return valid;
   }
