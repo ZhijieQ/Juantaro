@@ -55,7 +55,7 @@ module.exports = class AvatarCommand extends commands.Command {
 			.get(url)
 			.then(res => {
 				var dom = parser.parseFromString(res.data);
-				var 
+				
 				console.log(dom)
 				//console.log(dom)
 				/*var article = dom.getElementsByClassName('thumbnail-preview')[0]

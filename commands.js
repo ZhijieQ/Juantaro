@@ -7,12 +7,12 @@ const lang = util.getLanguage();
  * The class Command
  * 
  * @param name: the name of the command
- * @param aliases: the alias of the command
+ * @param aliases: the alias list of the command
  * @param args: the arguments of the command
  * @param category: the category of the command
  * @param permLvl: the permision level of the command
  * @param priority: the priority of the command. 0 has more priority
- * @version: 1.0
+ * @version: 1.3
  * @author: Zhijie
  */
 class Command {
