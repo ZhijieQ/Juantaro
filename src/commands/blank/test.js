@@ -4,6 +4,7 @@ const commands = require('../../../commands.js')
 const discord = require('discord.js')
 const util = require("../../util")
 const lang = util.getLanguage()
+const config = util.getConfig()
 
 module.exports = class TestCommand extends commands.Command {
   constructor(){

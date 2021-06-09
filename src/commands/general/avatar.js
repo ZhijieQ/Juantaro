@@ -19,7 +19,7 @@ module.exports = class AvatarCommand extends commands.Command {
       ],
       category: 'general',
       priority: 9,
-      permLvl: 1
+      permLvl: 0
     });
   }
 

@@ -2,6 +2,7 @@ const commands = require('../../../commands.js')
 const discord = require('discord.js')
 const util = require("../../util")
 const lang = util.getLanguage()
+const config = util.getConfig()
 
 module.exports = class ClearCommand extends commands.Command {
   constructor(){
@@ -18,7 +19,7 @@ module.exports = class ClearCommand extends commands.Command {
       ],
       category: 'blank',
       priority: 1,
-      permLvl: 1
+      permLvl: 0
     });
   }
 

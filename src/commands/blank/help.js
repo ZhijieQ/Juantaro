@@ -56,9 +56,33 @@ module.exports = class ClearCommand extends commands.Command {
 		}
 
 		const page1 = new discord.MessageEmbed()
-			.setTitle("Help Menu - Page 1")
+			.setTitle("Help Menu - Blank Command")
 			.setColor('GREEN')
 			.setDescription("Those commands dont need the prefix")
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+		
+		const page2 = new discord.MessageEmbed()
+			.setTitle("Help Menu - Imgs Command")
+			.setColor('Yellow')
+			.setDescription("Those commands need the prefix: j- or J-")
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+		
+		const page3 = new discord.MessageEmbed()
+			.setTitle("Help Menu - General Command")
+			.setColor('BLUE')
+			.setDescription("Those commands need the prefix: j- or J-")
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+		
+		const page4 = new discord.MessageEmbed()
+			.setTitle("Help Menu - Admin Command")
+			.setColor('RED')
+			.setDescription("Those commands need the prefix: j- or J-")
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -67,21 +91,23 @@ module.exports = class ClearCommand extends commands.Command {
 			page1.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 		}
 
-		const page2 = new discord.MessageEmbed()
-			.setTitle("Help Menu - Page 2")
-			.setColor('BLUE')
-			.setDescription("Those commands need the prefix: j- or J-")
-			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
-			.setFooter(`Created by ${admin.username}`)
-			.setTimestamp()
-
 		for (var command of commands.commands){
-			page2.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			if (command[1].permLvl == 0) {
+				page3.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}else if (command[1].permLvl == 1) {
+				page2.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}else if (command[1].permLvl == 2) {
+				page4.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}else if (command[1].permLvl == 3) {
+				page4.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}
 		}
 
 		const pages = [
 			page1,
-			page2
+			page2,
+			page3,
+			page4
 		]
 
 		const emojis = ["⏪", "⏩"]
