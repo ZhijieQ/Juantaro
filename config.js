@@ -11,11 +11,21 @@ module.exports = {
   categories: [
     {name: 'test', priority: 5}, 
     {name: 'general', priority: 8},
-    {name: 'levels', priority: 8}
+    {name: 'admin', priority: 1},
+		{name: 'blank', priority: 8},
+		{name: 'imgs', priority: 8}
   ],
   groups: [
-  {name: "User", permLvl: 0}, 
-  {name: "Member", permLvl: 1},
-  {name: "Mod", permLvl: 2},
-  {name: "Admin", permLvl: 3}]
+		{name: "User", permLvl: 0}, 
+		{name: "Imgs", permLvl: 1},
+		{name: "Mod", permLvl: 2},
+		{name: "Admin", permLvl: 3}
+	],
+	permission: {
+		0: "User",
+		1: "Member",
+		2: "Mod",
+		3: "Admin"
+	},
+	language: "English",
 }

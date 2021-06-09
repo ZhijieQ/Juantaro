@@ -1,0 +1,57 @@
+const commands = require('../../../commands.js')
+const discord = require('discord.js')
+const util = require("../../util")
+const lang = util.getLanguage()
+const config = util.getConfig()
+
+module.exports = class AvatarCommand extends commands.Command {
+  constructor(){
+    super({
+      name: 'desc',
+      aliases: ['Desc', 'descrip', 'Descrip', 'description', 'Description'],
+      args: [
+        new commands.Argument({
+          optional: true,
+					type: "mention",
+          missingError: lang.error.noArgs.mention,
+          invalidError: lang.error.incoArgs.text
+        })
+      ],
+      category: 'general',
+      priority: 9,
+      permLvl: 0
+    });
+  }
+
+	specificHelp(admin){
+		const embed = new discord.MessageEmbed()
+			.setTitle(`${util.capitalize(this.name)}`)
+			.setColor('YELLOW')
+			.setDescription(`The command **${this.name}` + 
+											'** is use for consult the description.')
+			.addField('Permission:', config.permission[this.permLvl])
+			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
+			.addField('Aliases:', this.aliases) 
+			.addField('Argument:', '**-None:** consult **Author** description.\n' +
+														 '**-@someone:** consult **@someone** description.')
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+
+		return embed
+	}
+
+  execute(msg, args){
+    let mentions = msg.mentions.users.first() || msg.author;
+		console.log(mentions)
+    const embed = new discord.MessageEmbed()
+		 .setTitle(mentions.username)
+		 .addField('Discriminator', mentions.discriminator)
+		 .addField('Bot', mentions.bot)
+     .setImage(mentions.avatarURL())
+     .setColor('RANDOM')
+     .setFooter(`Avatar de ${mentions.tag}`)
+		 .setTimestamp()
+    msg.channel.send(embed);
+  }
+}

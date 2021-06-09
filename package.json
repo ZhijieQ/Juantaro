@@ -20,9 +20,14 @@
   "homepage": "https://github.com/ZhijieQ/Juantaro#readme",
   "dependencies": {
     "@replit/database": "^2.0.1",
+    "axios": "^0.21.1",
     "discord.js": "^12.5.3",
+    "discord.js-pagination": "^1.0.3",
+    "dom-parser": "^0.1.6",
     "express": "^4.17.1",
+    "fs": "^0.0.2",
+    "jsdom": "^16.6.0",
     "node-fetch": "^2.6.1",
-    "fs": "^0.0.2"
+    "sqlite3": "^5.0.2"
   }
 }

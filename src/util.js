@@ -1,14 +1,15 @@
 function getConfig() {
-  return require('./config.js')
+  return require('../config.js')
 }
 
-function getLanguage(name) {
-	let language = name.toLowerCase();
+function getLanguage() {
+	const config = getConfig();
+	const language = config.language.toLocaleLowerCase();
 	var lang;
 	if (language === "english") {
-		lang = require("./languages/ES-es.json");
+		lang = require("../languages/EN-en.json");
 	}else if(language === "spanish"){
-		lang = require("./languages/ES-es.json")
+		lang = require("../languages/ES-es.json")
 	}
   return lang;
 }
@@ -16,6 +17,10 @@ function getLanguage(name) {
 function send(msg, text) {
 	msg.channel.send(text)
 }
+
+function capitalize(sentence){
+		return sentence[0].toUpperCase() + sentence.slice(1)
+	}
 
 async function getUsers(msg) {
 	users = msg.mentions.users
@@ -30,12 +35,6 @@ module.exports = {
 	getConfig,
 	send,
 	getLanguage,
-	getUsers
+	getUsers,
+	capitalize
 }
-
-
-
-/**
- * 
- * aaaa
- */

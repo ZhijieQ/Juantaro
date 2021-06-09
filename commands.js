@@ -1,7 +1,7 @@
 const fs = require('fs');
-const util = require('./util.js');
+const util = require('./src/util.js');
 const config = util.getConfig();
-const lang = util.getLanguage("English");
+const lang = util.getLanguage();
 
 /**
  * The class Command
@@ -34,65 +34,50 @@ class Command {
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-	//TODO: need to revise
   checkArgs(msg, msgArgs){
-		// Set valid to start
-    var valid = true;
-
-		/**
-		 * If the command dont need arguments, return valid true
-		 * If the command need arguments, need to check first
-		 */
-    if(this.args != undefined){
-
-			/** 
-			 * If the discord arguments is 0 and 
-			 * the command arguments that are not optional is defined,
-			 * means the sintax is bad.
-			 */
-      if(msgArgs.length == 0 && this.args.find(x => !x.optional) != undefined){
-        util.send(msg, lang.error.noArgs.arg);
-        return false;
-      }
-
       let index = 0
 			// For each argument commands
-      for(let cmdArg of this.args) {
-        console.log("A:" + cmdArg)
-				// Check the index argment is defined
-        if(cmdArg[index] != undefined){
-					console.log("B:" + cmdArg[index])
-					// Check if is optional
-          if(!cmdArg.optional) {
-            util.send(msg, cmdArg.missingError);
-            break;
-          }
+      for (let cmdArg of this.args) {
+        /**
+         * Now there are 4 possibilities:
+         *  - Its not a optional argument and there are not more message arguments,
+         *    that means the message is invalid.
+         *  - Its not a optional argument but there is a message argument,
+         *      * If Arg.checkArg() is true, increase the index to check next argument.
+         *      * If Arg.checkArg() is false, that means message is invalid.
+         *  - Its a optional argument and there are not more message arguments,
+         *    continue the loop without increase the index.
+         *  - Its a optional argument but there is a message argument:
+         *      * If Arg.checkArg() is true, increase the index to check next argument.
+         *      * If Arg.checkArg() is false, that means this optional argument 
+         *        is not in the message, so we dont increase the index 
+         *        but need to continue the loop.
+         * Extra: when we have a message argument,
+         * need to check if the type coincide, use Argument.checkArg() to check.
+         */
 
-				// Case if the argument is not defined
-        } else {
-          // Check if is a valid argument
-          if (!cmdArg.checkArg(msg, msgArgs[index])) {
-						// If is not a valid argument, Check if is optional
-            if (!cmdArg.optional || cmdArg.failOnInvalid) {
-              //enviar un mensaje de error
-              util.send(msg, cmdArg.invalidError);
-             
-              valid = false;
-              break;
-            }
-          } else {
-						// If is a valid argument, check if need to break
-            if (cmdArg.breakOnValid) {
-              break;
-            }
-            // Increment the counter for next argument of the message
-            index++;
-          }
+        if(msgArgs[index] && cmdArg.checkArg(msg, msgArgs[index])){
+          index++;
+        }else if(!cmdArg.optional){
+          util.send(msg, cmdArg.invalidError);
+          return false;
         }
       }
-    }
-    return valid;
+    return true;
   }
+
+	help(){
+		var help = `${this.name}, ${this.aliases.join(", ")}`
+		/*var help = 'Prefix j-/J-\n' +
+							 `${this.name}, ${this.aliases.join(", ")}`*/
+		return help
+	}
+
+	specificHelp(admin){
+		var help = `This command doesn't have a specific help.\n` +
+							 `Pls, contact with ${admin} as soon as possible!`
+		return help
+	}
 }
 
 /**
@@ -122,7 +107,7 @@ class Argument {
   }
 
 	/**
-	 * The check argument function
+	 * The check argument coincide with the type
 	 * 
 	 * @param msg: the discord message
 	 * @param msgArgs: the arguments of the discord message
@@ -132,7 +117,7 @@ class Argument {
 	 */
   checkArg(msg, msgArg){
     var valid = true;
-    
+
 		// Iterate each type
     switch(this.type) {
       case 'mention': 
@@ -145,7 +130,7 @@ class Argument {
         }
 
         break;
-      case 'int':
+      case 'number':
         if(!Number(msgArg)){
           valid = false;
         }
@@ -161,6 +146,11 @@ class Argument {
         }
 
         break;
+			case 'string':
+				break;
+
+			default:
+				return false;
     }
     return valid;
   }
@@ -215,9 +205,11 @@ module.exports = {
   Category: Category,
 
 	// Declarations of the variables
-  namesAliases: [],
-  categories: new Map(),
+  namesAliases: new Map(),
   commands: new Map(),
+	blankNamesAliases: new Map(),
+	blankCommands: new Map(),
+	categories: new Map(),
 
 	/**
 	 * Load the file
@@ -249,16 +241,22 @@ module.exports = {
 		// Read the commands dir
     var cmds = fs.readdirSync(`./src/commands/`);
 
+		var blank = false;
+
 		// Read each category(a module)
     for(var category of cmds){
 			// Read all file in the category
       var files = fs.readdirSync(`./src/commands/${category}`);
 
+			if (category === "blank") {
+				blank = true
+			}
+
       for(var file of files){
 				// Check if the file is a File
         if(fs.statSync(`./src/commands/${category}/${file}`).isFile()){
 					// There are differents commands in the file
-					// Example, const { Command } = require('./src/commands')
+					// Example, const { Command } = require('./commands')
           var keys = require(`./src/commands/${category}/${file}`)
 
 					// Validate the keys to a Object, use for 1 command in the file
@@ -278,17 +276,35 @@ module.exports = {
 								// Remember that registerCategories() need a list of Categories
                 this.registerCategories([category])
               }
-             
-						  // Set a command
-              this.commands.set(command.name, command)
-							// There could be more than one alias, use ... for get all
-              this.namesAliases.push(command.name, ...command.aliases)
+
+							if (blank) {
+								// Set a blank command
+								this.blankCommands.set(command.name, command)
+
+								// Set all alias
+								for (var alias of command.aliases){
+									this.blankNamesAliases.set(alias, command)
+								}
+							}
+
+							// Set a command
+							this.commands.set(command.name, command)
+
+							// Set all alias
+							for (var alias of command.aliases){
+								this.namesAliases.set(alias, command)
+							}
+
 							// Set command in the category
               this.categories.get(category).addCommand(command)
             }
           }
         }
       }
+
+			if (blank){
+				blank = false;
+			}
     }
   },
 	/**
@@ -318,6 +334,7 @@ module.exports = {
     }
     
 		// TODO: print the permissions to see the permission
+		// Suppose that all command has Member permission
     let userPermsLvl = 1;
     if(userPermsLvl >= permLvl){
       return true;
@@ -331,47 +348,54 @@ module.exports = {
 	 * Get the command by name
 	 * 
 	 * @param name: the name of the command
+	 * @param blank: True if it is a blank command
 	 * @return command: the command object
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-  getCmd: function(name){
-    var command = this.commands.get(name);
-    
-		// If does not get the command, maybe is the alias
-    if(!command) {
-      this.commands.forEach(function(aCmd){
-        if(aCmd.aliases.includes(name)){
-          command = aCmd;
-          return;
-        }
-      })
-    }
+  getCmd: function(name, blank){
+		var command;
+
+		// Check if its a blank command
+		if (blank) {
+			command = this.blankCommands.get(name);
+
+			// If there is no command, maybe is a alias
+			if(!command) {
+				command = this.blankNamesAliases.get(name)
+			}
+		}else{
+			command = this.commands.get(name);
+
+			// If there is no command, maybe is a alias
+			if(!command) {
+				command = this.namesAliases.get(name)
+			}
+		}
+
+		// Return the null command
     return command;
   },
 	/**
-	 * Check if the command is in the list
+	 * Check if the command is valid and 
+	 * check if has a permission
 	 * !Important: this is async function
 	 * 
 	 * @param msg: the discord message
 	 * @param args: the arguments of the message
-	 * @param prefix: the prefix of the command
+	 * @param blank: True if it is a blank command
 	 * @return boolena: True if is validated, False if not
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-  checkValidCmd: async function(msg, args, prefix){
-		// Get the command using first arguments
-    var command = this.getCmd(args[0]);
+  checkValidCmd: async function(msg, args, blank){
+		var command = this.getCmd(args[0], blank)
     
-		// First check if has prefix and then check the permision
-    if(msg.content.toLowerCase().startsWith(prefix) && command != null){
-      let result = this.checkPerms(msg, command.permLvl)
-      if(result){
-        return true;
-      }
-    }
-    
+		// Check if there is a command and the permision
+    if(command && this.checkPerms(msg, command.permLvl)){
+			return true;
+		}
+
     return false;
   },
 	/**
@@ -380,12 +404,15 @@ module.exports = {
 	 * 
 	 * @param msg: the discord message
 	 * @param args: the arguments of the message
+	 * @param blank: True if it is a blank command
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-  executeCmd: async function(msg, args){
-    let cmd = this.getCmd(args[0])
+  executeCmd: async function(msg, args, blank){
+    let cmd = this.getCmd(args[0], blank)
     arguments = args.slice(1)
+
+		// Check the Arguments first, and then execute
     if(cmd.checkArgs(msg, arguments)) {
      await cmd.execute(msg, arguments)
     }
