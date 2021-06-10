@@ -63,11 +63,12 @@ module.exports = class ImgsCommand extends commands.Command {
 				console.log(error);
 			}
 			else {
-				console.log(JSON.stringify(results, null, '  '));
+				const file = JSON.parse(JSON.stringify(results, null, '  '))
+				//console.log(file[1]['url']);
+				msg.channel.send(file[1]['url']);
 			}
 		}
 		gis(opts, logResults);
-
   }
 
   /*execute(msg, args){
