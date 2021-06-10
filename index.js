@@ -9,7 +9,6 @@ const util = require("./src/util")
 const fs = require('fs')
 const commands = require("./commands.js")
 
-
 const client = new Client()
 const db = new Database()
 const config = util.getConfig()
@@ -51,8 +50,6 @@ client.on("message", async msg => {
 
 	var args;
 	var blank = false;
-	//console.log("aa")
-	//console.log(msg.channel)
 
 	// Check if startsWith with Prefix
 	if (msg.content.toLowerCase().startsWith(prefix)){
@@ -62,12 +59,36 @@ client.on("message", async msg => {
 		blank = true;
 	}
 	
+	var listArgs = []
 	// Check if the arguments if defined
+	// If the arguments has sintax '(x x x)',
+	// will be splited to get 'x x x'
 	if(args != undefined){
-		args = args.split(' ');
+		// Split (
+		args = args.split(' (')
+
+		// For each arg, check if contains ')'
+		for(let arg of args){
+			// If contains ')', split it
+			if(arg.includes(')')){
+				arg.split(') ').forEach(element => {
+					if(element){
+						listArgs.push(element)
+					}
+				})
+			}
+			// If not contains, split the space
+			else{
+				arg.split(' ').forEach(element => {
+					listArgs.push(element)
+				})
+			}
+		}
+		//console.log(listArgs)
+		//args = args.split(' ');
 	}
 
-	let result = await commands.checkValidCmd(msg, args, blank);
+	let result = await commands.checkValidCmd(msg, listArgs, blank);
 	if(!result){
 		// If the result is false and its not a 
 		// Blank Category command, its a error.
@@ -77,7 +98,7 @@ client.on("message", async msg => {
 		return;
 	}
 
-	await commands.executeCmd(msg, args, blank)
+	await commands.executeCmd(msg, listArgs, blank)
 })
 
 server.keepAlive()
