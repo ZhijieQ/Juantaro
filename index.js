@@ -65,13 +65,19 @@ client.on("message", async msg => {
 	// will be splited to get 'x x x'
 	if(args != undefined){
 		// Split (
-		args = args.split(' (')
+		args = args.split(' "')
 
 		// For each arg, check if contains ')'
 		for(let arg of args){
 			// If contains ')', split it
-			if(arg.includes(')')){
-				arg.split(') ').forEach(element => {
+			if(arg.endsWith('"')){
+				arg.split('"').forEach(element => {
+					if(element){
+						listArgs.push(element)
+					}
+				})
+			}else if(arg.includes('"')){
+				arg.split('" ').forEach(element => {
 					if(element){
 						listArgs.push(element)
 					}

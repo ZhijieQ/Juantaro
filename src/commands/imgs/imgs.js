@@ -43,8 +43,8 @@ module.exports = class ImgsCommand extends commands.Command {
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-String:** search the **String** image.\n' +
-														 '**-(String):** search the **String** image if the Strings are composed.\n' +
-														 '**-String/(String) Number:** search the **index Number** image.')
+														 '**-"String":** search the **String** image if the Strings are composed.\n' +
+														 '**-String/"String Number":** search the **index Number** image.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
