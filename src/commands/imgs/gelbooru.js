@@ -11,7 +11,7 @@ const fetch = require('node-fetch');
 var JSDOM = jsdom.JSDOM;
 const https = require('https')*/
 
-module.exports = class AvatarCommand extends commands.Command {
+module.exports = class GelbooruCommand extends commands.Command {
   constructor(){
     super({
       name: 'gelbooru',

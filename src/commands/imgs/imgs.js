@@ -3,6 +3,7 @@ const discord = require('discord.js')
 const util = require("../../util")
 const lang = util.getLanguage()
 const config = util.getConfig()
+var gis = require('g-i-s');
 const axios = require('axios')
 var DomParser = require('dom-parser');
 var parser = new DomParser();
@@ -11,11 +12,11 @@ const fetch = require('node-fetch');
 var JSDOM = jsdom.JSDOM;
 const https = require('https')*/
 
-module.exports = class AvatarCommand extends commands.Command {
+module.exports = class ImgsCommand extends commands.Command {
   constructor(){
     super({
-      name: 'search',
-      aliases: ['Search'],
+      name: 'img',
+      aliases: ['Img', 'imgs'],
       args: [
         new commands.Argument({
           optional: false,
@@ -47,34 +48,53 @@ module.exports = class AvatarCommand extends commands.Command {
 		return embed
 	}
 
-  execute(msg, args){
+	execute(msg, args){
+		console.log(args)
+		var opts = {
+			searchTerm: 'gato negro',
+			/*queryStringAddition: '&tbs=ic:trans',
+			filterOutDomains: [
+				'pinterest.com',
+				'deviantart.com'
+			]*/
+		};
+		function logResults(error, results) {
+			if (error) {
+				console.log(error);
+			}
+			else {
+				console.log(JSON.stringify(results, null, '  '));
+			}
+		}
+		gis(opts, logResults);
+
+  }
+
+  /*execute(msg, args){
 		console.log(args)
 
-		var url = `http://www.google.com/search?q=${args.join("+")}&tbm=isch`
+		const url = `http://www.google.com/search?q=${args.join("+")}&tbm=isch`
+		//console.log(url)
     axios
 			.get(url)
 			.then(res => {
-				var dom = parser.parseFromString(res.data);
+				const dom = parser.parseFromString(res.data);
 				
-				console.log(dom)
 				//console.log(dom)
-				/*var article = dom.getElementsByClassName('thumbnail-preview')[0]
-				console.log(article)
+				//console.log(dom)
+				const article = dom.getElementsByClassName('RAyV4b')[2]
+				console.log(article.innerHTML)
 				if(!article){
 					msg.channel.send("Sorry, this image does not exists!");
 				}
-				var brokeUrl = article.innerHTML.split('href="')[1].split('">')[0]
-				
-				var sentences = brokeUrl.split('amp;')
-				var fixUrl = sentences.join('')
-				console.log(fixUrl)
-				msg.channel.send(fixUrl);*/
-				msg.channel.send("Hello")
+				const url = article.innerHTML.split('src="')[1].split('"')[0]
+				//console.log(url)
+				msg.channel.send(url);
 				//console.log(fixUrl)
 				//console.log(res.data)
 			})
 			.catch(error => {
 				console.error(error)
-			}) 
-  }
+			})
+	}*/
 }
