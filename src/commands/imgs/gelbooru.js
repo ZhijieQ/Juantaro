@@ -85,12 +85,17 @@ module.exports = class GelbooruCommand extends commands.Command {
 				var sentences = brokeUrl.split('amp;')
 				var fixUrl = sentences.join('')
 				console.log(fixUrl)
-        var ReqImg = dom.getElementById('image').innerHTML
-				msg.channel.send(ReqImg);
-        //ReqImg = requested image
+        message.channel.send({files: [fixUrl]});
 				//console.log(fixUrl)
 				//console.log(res.data)
 			})
+
+      //.get(fixUrl)
+      //.then(ReqImg => {
+       // var dom = parser.parseFromString(ReqImg.data);
+        //var imgpg = dom.getElementById('image').innerHTML
+       // msg.channel.send(imgpg);
+      //})
 			.catch(error => {
 				console.error(error)
 			}) 
