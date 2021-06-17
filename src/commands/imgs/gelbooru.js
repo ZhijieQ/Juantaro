@@ -84,11 +84,12 @@ module.exports = class GelbooruCommand extends commands.Command {
 				var brokeUrl = article.innerHTML.split('href="')[1].split('">')[0]
 				var sentences = brokeUrl.split('amp;')
 				var fixUrl = sentences.join('')
+				console.log(fixUrl)
         
 				//console.log(fixUrl)
 				//console.log(res.data)
 			})
-      console.log(fixUrl)
+
       .setImage(fixUrl)
       msg.channel.send(ReqImg)
 			.catch(error => {
