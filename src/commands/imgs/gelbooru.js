@@ -85,7 +85,7 @@ module.exports = class GelbooruCommand extends commands.Command {
 				var sentences = brokeUrl.split('amp;')
 				var fixUrl = sentences.join('')
 				console.log(fixUrl)
-        var ReqImg = fixUrl.getElementById('image').innerHTML
+        var ReqImg = dom.getElementById('image').innerHTML
 				msg.channel.send(ReqImg);
         //ReqImg = requested image
 				//console.log(fixUrl)
