@@ -75,17 +75,19 @@ module.exports = class GelbooruCommand extends commands.Command {
 			.then(res => {
 				var dom = parser.parseFromString(res.data);
 				//console.log(dom)
-				var article = dom.getElementsById('image')[0]
+				var article = dom.getElementsByClassName('thumbnail-preview')[0]
 				console.log(article)
 				if(!article){
-					msg.channel.send("Sorry, this image does not exist!");
+					msg.channel.send("Sorry, this image does not exists!");
 				}
 				var brokeUrl = article.innerHTML.split('href="')[1].split('">')[0]
 				
 				var sentences = brokeUrl.split('amp;')
 				var fixUrl = sentences.join('')
 				console.log(fixUrl)
-				msg.channel.send(fixUrl);
+        var ReqImg = fixUrl.getElementById('image').innerHTML
+				msg.channel.send(ReqImg);
+        //ReqImg = requested image
 				//console.log(fixUrl)
 				//console.log(res.data)
 			})
