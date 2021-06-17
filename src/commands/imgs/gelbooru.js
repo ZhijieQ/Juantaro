@@ -7,7 +7,8 @@ const axios = require('axios')
 var DomParser = require('dom-parser');
 var parser = new DomParser();
 const fetch = require('node-fetch');
-const ReqImg = new Discord.MessageEmbed()
+const booru = require('booru');
+const { Client, MessageEmbed } = require('discord.js');
 /*var jsdom = require("jsdom");
 var JSDOM = jsdom.JSDOM;
 const https = require('https')*/
@@ -67,33 +68,26 @@ module.exports = class GelbooruCommand extends commands.Command {
 		return response.json(); // parses JSON response into native JavaScript objects
 	}
 
-  execute(msg, args){
-		console.log(args)
+   run(message) {
+        var errMessage = errors[Math.round(Math.random() * (errors.length - 1))];
+        var query = message.content.split(/\s+/g).slice(1).join(" ");
 
-		var url = 'https://gelbooru.com/index.php?page=post&s=list&tags=' + `${args.join("+")}`
-    axios
-			.get(url)
-			.then(res => {
-				var dom = parser.parseFromString(res.data);
-				//console.log(dom)
-				var article = dom.getElementsByClassName('thumbnail-preview')[0]
-				console.log(article)
-				if(!article){
-					msg.channel.send("Sorry, this image does not exists!");
-				}
-				var brokeUrl = article.innerHTML.split('href="')[1].split('">')[0]
-				var sentences = brokeUrl.split('amp;')
-				var fixUrl = sentences.join('')
-				console.log(fixUrl)
-        
-				//console.log(fixUrl)
-				//console.log(res.data)
-			})
-
-      .setImage(fixUrl)
-      msg.channel.send(ReqImg)
-			.catch(error => {
-				console.error(error)
-			}) 
-  }
+        booru.search('gelbooru', [query], { limit: 1, random: true })
+            .then(booru.commonfy)
+            .then(images => {
+                for (let image of images) {
+                    const embed = new Discord.MessageEmbed()
+                        .setAuthor(`gelbooru ${query}`, 'https://cure.ninja/booru/api/json/url/?url=http%3A%2F%2Fdonmai.us%2Fdata%2Feae4828342217c4498d6d9831a4558ca.jpg')
+                        .setDescription(`[Image URL](${image.common.file_url})`)
+                        .setImage(image.common.file_url)
+                    return message.channel.send({ embed });
+                }
+            }).catch(err => {
+                if (err.name === 'booruError') {
+                    return message.channel.send(`No results found for **${query}**!`);
+                } else {
+                    return message.channel.send(`No results found for **${query}**!`);
+                }
+            })
+    }
 }
