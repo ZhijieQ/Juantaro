@@ -7,6 +7,7 @@ const axios = require('axios')
 var DomParser = require('dom-parser');
 var parser = new DomParser();
 const fetch = require('node-fetch');
+const ReqImg = new Discord.MessageEmbed()
 /*var jsdom = require("jsdom");
 var JSDOM = jsdom.JSDOM;
 const https = require('https')*/
@@ -81,21 +82,15 @@ module.exports = class GelbooruCommand extends commands.Command {
 					msg.channel.send("Sorry, this image does not exists!");
 				}
 				var brokeUrl = article.innerHTML.split('href="')[1].split('">')[0]
-				
 				var sentences = brokeUrl.split('amp;')
 				var fixUrl = sentences.join('')
-				console.log(fixUrl)
-        message.channel.send({files: [fixUrl]});
+        
 				//console.log(fixUrl)
 				//console.log(res.data)
 			})
-
-      //.get(fixUrl)
-      //.then(ReqImg => {
-       // var dom = parser.parseFromString(ReqImg.data);
-        //var imgpg = dom.getElementById('image').innerHTML
-       // msg.channel.send(imgpg);
-      //})
+      console.log(fixUrl)
+      .setImage(fixUrl)
+      msg.channel.send(ReqImg)
 			.catch(error => {
 				console.error(error)
 			}) 
