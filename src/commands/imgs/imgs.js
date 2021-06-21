@@ -33,6 +33,14 @@ module.exports = class ImgsCommand extends commands.Command {
     });
   }
 
+  	/**
+	 * Implementation for specific help command.
+	 * 
+     * @param admin: the admin class of discord bot 
+	 * @return embed: the embed message. 
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	specificHelp(admin){
 		const embed = new discord.MessageEmbed()
 			.setTitle(`${util.capitalize(this.name)}`)
@@ -51,7 +59,15 @@ module.exports = class ImgsCommand extends commands.Command {
 
 		return embed
 	}
-
+	
+	/**
+	 * Send the imgs after search in google images.
+	 * 
+     * @param msg: the admin class of discord bot
+     * @param args: the argments of the command
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	execute(msg, args){
 		//console.log(args)
 	  gis(args[0], (error, results) => {

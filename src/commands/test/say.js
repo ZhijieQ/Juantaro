@@ -23,6 +23,14 @@ module.exports = class SayCommand extends commands.Command {
     });
   }
 
+  /**
+	 * Implementation for specific help command.
+	 * 
+   * @param admin: the admin class of discord bot 
+	 * @return embed: the embed message. 
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	specificHelp(admin){
 		const embed = new discord.MessageEmbed()
 			.setTitle(`${util.capitalize(this.name)}`)
@@ -40,6 +48,12 @@ module.exports = class SayCommand extends commands.Command {
 		return embed
 	}
 
+  /**
+   * Send the same message to the channel.
+	 * 
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
   execute(msg, args){
     msg.channel.send(args.join(' '));
   }

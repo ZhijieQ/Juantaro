@@ -18,7 +18,7 @@ const lang = util.getLanguage();
 class Command {
   constructor(info) {
     this.name = info.name;
-		this.aliases = info.aliases;
+	this.aliases = info.aliases;
     this.args = info.args;
     this.category = info.category;
     this.permLvl = info.permLvl;
@@ -65,7 +65,13 @@ class Command {
       }
     return true;
   }
-
+  	/**
+	 * Use to help command.
+	 * 
+	 * @return help: the name list of command
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	help(){
 		var help = `${this.name}, ${this.aliases.join(", ")}`
 		/*var help = 'Prefix j-/J-\n' +
@@ -73,6 +79,13 @@ class Command {
 		return help
 	}
 
+	/**
+	 * Use to specific help command.
+	 * 
+	 * @return help: indicate that specific help is not implemented
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	specificHelp(admin){
 		var help = `This command doesn't have a specific help.\n` +
 							 `Pls, contact with ${admin} as soon as possible!`

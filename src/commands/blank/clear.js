@@ -23,6 +23,14 @@ module.exports = class ClearCommand extends commands.Command {
     });
   }
 
+  	/**
+	 * Implementation for specific help command.
+	 * 
+     * @param admin: the admin class of discord bot 
+	 * @return embed: the embed message. 
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	specificHelp(admin){
 		const embed = new discord.MessageEmbed()
 			.setTitle(`${util.capitalize(this.name)}`)
@@ -41,6 +49,14 @@ module.exports = class ClearCommand extends commands.Command {
 		return embed
 	}
 
+	/**
+	 * Clear the args[0] number of the message.
+	 * 
+     * @param msg: the admin class of discord bot
+     * @param args: the argments of the command
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
   execute(msg, args){
 		const number = Number(args[0])
 		var maxNumber;

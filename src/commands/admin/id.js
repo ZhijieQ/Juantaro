@@ -22,7 +22,14 @@ module.exports = class IdCommand extends commands.Command {
       permLvl: 3
     });
   }
-
+  	/**
+	 * Implementation for specific help command.
+	 * 
+     * @param admin: the admin class of discord bot 
+	 * @return embed: the embed message. 
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	specificHelp(admin){
 		const embed = new discord.MessageEmbed()
 			.setTitle(`${util.capitalize(this.name)}`)
@@ -41,6 +48,14 @@ module.exports = class IdCommand extends commands.Command {
 		return embed
 	}
 
+  	/**
+	 * Send the id of user.
+	 * 
+     * @param msg: the admin class of discord bot
+     * @param args: the argments of the command
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
   execute(msg, args){
 		var mentions = [];
 

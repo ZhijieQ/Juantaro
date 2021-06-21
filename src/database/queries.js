@@ -21,7 +21,6 @@ module.exports = {
 	},
 	/**
 	 * Query the first row in the result set.
-	 * Use for select
 	 * 
 	 * @param query: the query with sintax 'SELECT * FROM coins WHERE idUse = ?'
 	 * @param args: the arguments that reference '?' of the query
@@ -44,7 +43,6 @@ module.exports = {
   },
 	/**
 	 * Quering all colum.
-	 * Use for select
 	 * 
 	 * @param query: the query with sintax 'SELECT * FROM coins WHERE idUse = ?'
 	 * @param args: the arguments that reference '?' of the query

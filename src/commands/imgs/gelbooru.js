@@ -32,6 +32,14 @@ module.exports = class GelbooruCommand extends commands.Command {
     });
   }
 
+  /**
+	 * Implementation for specific help command.
+	 * 
+   * @param admin: the admin class of discord bot 
+	 * @return embed: the embed message. 
+	 * @version: 1.0
+	 * @author: Zhijie
+	 */
 	specificHelp(admin){
 		const embed = new discord.MessageEmbed()
 			.setTitle(`${util.capitalize(this.name)}`)
