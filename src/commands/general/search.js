@@ -4,10 +4,10 @@ const util = require("../../util")
 const lang = util.getLanguage()
 const config = util.getConfig()
 const axios = require('axios')
-var DomParser = require('dom-parser');
+/*var DomParser = require('dom-parser');
 var parser = new DomParser();
 const fetch = require('node-fetch');
-/*var jsdom = require("jsdom");
+var jsdom = require("jsdom");
 var JSDOM = jsdom.JSDOM;
 const https = require('https')*/
 
@@ -48,7 +48,7 @@ module.exports = class AvatarCommand extends commands.Command {
 	}
 
   execute(msg, args){
-		console.log(args)
+		//console.log(args)
 
 		var url = `http://www.google.com/search?q=${args.join("+")}&tbm=isch`
     axios

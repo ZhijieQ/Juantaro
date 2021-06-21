@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
-const sql = new sqlite3.Database('../sqlite3/bot.db')
-const config = require('../../util.js').getConfig();
+// This need full path cause you are creating a new Database instead of requite()
+const sql = new sqlite3.Database('./src/database/sqlite3/bot.db');
 
 async function tableCoins(){
   await sql.run('CREATE TABLE IF NOT EXISTS coins (iduser TEXT PRIMARY KEY, coins INTEGER, status INTEGER)');

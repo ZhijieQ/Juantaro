@@ -3,14 +3,13 @@ const {
 	RichEmbed
 } = require("discord.js")
 const fetch = require("node-fetch")
-const Database = require("@replit/database")
 const server = require("./src/server")
 const util = require("./src/util")
 const fs = require('fs')
 const commands = require("./commands.js")
+const db = require('./src/database/db.js')
 
 const client = new Client()
-const db = new Database()
 const config = util.getConfig()
 const lang = util.getLanguage();
 const TOKEN = process.env["TOKEN"]
@@ -18,7 +17,8 @@ const TOKEN = process.env["TOKEN"]
 let startTime = Date.now();
 let prefix = config.prefix;
 
-client.on("ready", () =>{
+client.on("ready", async () =>{
+	
 	// Set bot Status (online, idle, invisible, dnd)
 	client.user.setStatus(config.status['online'])
 
@@ -31,9 +31,12 @@ client.on("ready", () =>{
 	// Register all command from ./src/commands/
  	commands.registerCommands();
 
+	// Create coins Table if not exists
+	await db.coinSystem.check.createTables();
+
  	let time = Date.now() - startTime;
 	console.log(`Logged in as ${client.user.tag}! Used Time: ${time}ms`);
-	
+
 	//const testChannel = client.channels.find(x => x.name === 'test')
 	//console.log(testChannel)
 })
@@ -103,7 +106,7 @@ client.on("message", async msg => {
 		}
 		return;
 	}
-
+	db.coinSystem.coins.updateCoin(msg.author.id, 2)
 	await commands.executeCmd(msg, listArgs, blank)
 })
 

@@ -43,7 +43,7 @@ module.exports = class AvatarCommand extends commands.Command {
 
   execute(msg, args){
     let mentions = msg.mentions.users.first() || msg.author;
-		console.log(mentions)
+		//console.log(mentions)
     const embed = new discord.MessageEmbed()
 		 .setTitle(mentions.username)
 		 .addField('Discriminator', mentions.discriminator)

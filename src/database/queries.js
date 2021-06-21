@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const sql = new sqlite3.Database('./sqlite3/bot.db');
+const sql = new sqlite3.Database('./src/database/sqlite3/bot.db');
 const config = require('../util.js').getConfig();
 
 module.exports = {
@@ -13,14 +13,14 @@ module.exports = {
 	 * @version 1.0
 	 */
 	runQuery: async function(query, args){
-			try {
-				await sql.run(query, args)
-			} catch (e) {
-				console.error(e)
-			}
+		try {
+			await sql.run(query, args)
+		} catch (e) {
+			console.error(e)
+		}
 	},
 	/**
-	 * List only one colum.
+	 * Query the first row in the result set.
 	 * Use for select
 	 * 
 	 * @param query: the query with sintax 'SELECT * FROM coins WHERE idUse = ?'
@@ -37,15 +37,13 @@ module.exports = {
             resolve(row)
           })
         })
-      
-      
     } catch (e){
       console.error(e)
     }
     return result;
   },
 	/**
-	 * List all colum.
+	 * Quering all colum.
 	 * Use for select
 	 * 
 	 * @param query: the query with sintax 'SELECT * FROM coins WHERE idUse = ?'

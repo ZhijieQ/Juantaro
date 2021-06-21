@@ -1,5 +1,5 @@
 // const { Commands } because we only need the class Command and not Argument
-//const { Command } = require('../../../commands.js')
+// const { Command } = require('../../../commands.js')
 const commands = require('../../../commands.js')
 const discord = require('discord.js')
 const util = require("../../util")

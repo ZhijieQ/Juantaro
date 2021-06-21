@@ -45,12 +45,12 @@ module.exports = class ClearCommand extends commands.Command {
 		const number = Number(args[0])
 		var maxNumber;
     if(!number){
-				maxNumber = 100
-			}else{
-				maxNumber = Math.min(number+1, 100)
-			}
-			msg.channel.bulkDelete(maxNumber)
-						.then(messages => console.log(`Bulk deleted ${messages.size} messages`))
-						.catch(console.error);
+			maxNumber = 100
+		}else{
+			maxNumber = Math.min(number+1, 100)
+		}
+		msg.channel.bulkDelete(maxNumber)
+					.then(messages => console.log(`Bulk deleted ${messages.size} messages`))
+					.catch(console.error);
   }
 }

@@ -44,7 +44,7 @@ module.exports = class ImgsCommand extends commands.Command {
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-String:** search the **String** image.\n' +
 														 '**-"String":** search the **String** image if the Strings are composed.\n' +
-														 '**-String/"String Number":** search the **index Number** image.')
+														 '**-String/"String" Number:** search the **index Number** image with **String** composed.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -53,6 +53,7 @@ module.exports = class ImgsCommand extends commands.Command {
 	}
 
 	execute(msg, args){
+		//console.log(args)
 	  gis(args[0], (error, results) => {
 			// If error, return
 			if(error){
@@ -67,7 +68,7 @@ module.exports = class ImgsCommand extends commands.Command {
 				if (result){
 					msg.channel.send(result['url']);
 				}else{
-					msg.channel.send('Sorry, this image does not exists!');
+					msg.channel.send('Sorry, maybe you are using incorrect command, pls use **help img** to check!');
 				}
 			}
 			// If has not the number argument, get first result

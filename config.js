@@ -13,7 +13,8 @@ module.exports = {
     {name: 'general', priority: 8},
     {name: 'admin', priority: 1},
 		{name: 'blank', priority: 8},
-		{name: 'imgs', priority: 8}
+		{name: 'imgs', priority: 8},
+		{name: 'coins', priority: 8}
   ],
   groups: [
 		{name: "User", permLvl: 0}, 
