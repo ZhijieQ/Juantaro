@@ -23,10 +23,10 @@ module.exports = class AvatarCommand extends commands.Command {
     });
   }
 
-  	/**
+  /**
 	 * Implementation for specific help command.
 	 * 
-     * @param admin: the admin class of discord bot 
+   * @param admin: the admin class of discord bot 
 	 * @return embed: the embed message. 
 	 * @version: 1.0
 	 * @author: Zhijie
@@ -52,8 +52,8 @@ module.exports = class AvatarCommand extends commands.Command {
 	/**
 	 * A easy calculator.
 	 * 
-     * @param msg: the admin class of discord bot
-     * @param args: the argments of the command
+   * @param msg: the admin class of discord bot
+   * @param args: the argments of the command
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */

@@ -27,10 +27,10 @@ module.exports = class ClearCommand extends commands.Command {
     });
   }
 
-  	/**
+  /**
 	 * Implementation for specific help command.
 	 * 
-     * @param admin: the admin class of discord bot 
+   * @param admin: the admin class of discord bot 
 	 * @return embed: the embed message. 
 	 * @version: 1.0
 	 * @author: Zhijie
@@ -56,19 +56,26 @@ module.exports = class ClearCommand extends commands.Command {
 	/**
 	 * Send the pagination of the commands.
 	 * 
-     * @param msg: the admin class of discord bot
-     * @param args: the argments of the command
+   * @param msg: the admin class of discord bot
+   * @param args: the argments of the command
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
   execute(msg, args){
+		// Get the command from arg[0]
 		var cmd = commands.getCmd(args[0], false)
+
+		// Get the client class from admin id
 		var admin = msg.client.users.cache.get(config.superusers[0])
 
+		// If the command is not null, that means it is a specific command
 		if(cmd){
 			msg.channel.send(cmd.specificHelp(admin));
 			return
 		}
+
+		// If is not specific command, it is a general command.
+		// So we create the diferents command page for different categories
 
 		const page1 = new discord.MessageEmbed()
 			.setTitle("Help Menu - Blank Command")

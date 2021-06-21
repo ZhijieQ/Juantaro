@@ -25,10 +25,10 @@ module.exports = class TestCommand extends commands.Command {
     });
   }
 
-  	/**
+  /**
 	 * Implementation for specific help command.
 	 * 
-     * @param admin: the admin class of discord bot 
+   * @param admin: the admin class of discord bot 
 	 * @return embed: the embed message. 
 	 * @version: 1.0
 	 * @author: Zhijie
@@ -54,8 +54,8 @@ module.exports = class TestCommand extends commands.Command {
 	/**
 	 * Send a message to channel.
 	 * 
-     * @param msg: the admin class of discord bot
-     * @param args: the argments of the command
+   * @param msg: the admin class of discord bot
+   * @param args: the argments of the command
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
