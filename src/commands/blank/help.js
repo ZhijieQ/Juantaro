@@ -109,19 +109,15 @@ module.exports = class ClearCommand extends commands.Command {
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
 
-		for (var command of commands.blankCommands){
-			page1.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
-		}
-
 		for (var command of commands.commands){
-			if (command[1].permLvl == 0) {
-				page3.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
-			}else if (command[1].permLvl == 1) {
+			if (command[1].category == 'blank') {
+				page1.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}else if (command[1].category == 'imgs') {
 				page2.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
-			}else if (command[1].permLvl == 2) {
+			}else if (command[1].category == 'admin') {
 				page4.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
-			}else if (command[1].permLvl == 3) {
-				page4.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}else {
+				page3.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}
 		}
 

@@ -27,7 +27,7 @@ module.exports = class ImgsCommand extends commands.Command {
           invalidError: lang.error.incoArgs.text
         })
       ],
-      category: 'general',
+      category: 'imgs',
       priority: 9,
       permLvl: 1
     });

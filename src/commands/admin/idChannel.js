@@ -17,7 +17,7 @@ module.exports = class IdChannelCommand extends commands.Command {
           invalidError: lang.error.incoArgs.text
         })
       ],
-      category: 'test',
+      category: 'admin',
       priority: 0,
       permLvl: 3
     });

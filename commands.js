@@ -18,7 +18,7 @@ const lang = util.getLanguage();
 class Command {
   constructor(info) {
     this.name = info.name;
-	this.aliases = info.aliases;
+	  this.aliases = info.aliases;
     this.args = info.args;
     this.category = info.category;
     this.permLvl = info.permLvl;
