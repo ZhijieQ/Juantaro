@@ -110,7 +110,10 @@ client.on("message", async msg => {
 	await commands.executeCmd(msg, listArgs, blank)
 })
 
+// Open a port to the server
 server.keepAlive()
+
+// Login the bot
 client.login(TOKEN).catch((err) => {
 	console.error(err);
   process.exitCode = 1;
