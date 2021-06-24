@@ -36,7 +36,7 @@ module.exports = class AvatarCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is use for consult the description.')
+											'** is used to consult the description.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
@@ -54,10 +54,12 @@ module.exports = class AvatarCommand extends commands.Command {
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
-	 * @version: 1.0
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-  execute(msg, args){
+  execute(msg, args, info){
     let mentions = msg.mentions.users.first() || msg.author;
 		//console.log(mentions)
     const embed = new discord.MessageEmbed()

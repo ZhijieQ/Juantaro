@@ -51,10 +51,14 @@ module.exports = class SayCommand extends commands.Command {
   /**
    * Send the same message to the channel.
 	 * 
-	 * @version: 1.0
+	 * @param msg: the admin class of discord bot
+   * @param args: the argments of the command
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-  execute(msg, args){
+  execute(msg, args, info){
     msg.channel.send(args.join(' '));
   }
 }

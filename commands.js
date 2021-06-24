@@ -363,7 +363,7 @@ module.exports = {
 	 * @param name: the name of the command
 	 * @param blank: True if it is a blank command
 	 * @return command: the command object
-	 * @version: 1.0
+	 * @version: 1.2
 	 * @author: Zhijie
 	 */
   getCmd: function(name, blank){
@@ -398,7 +398,7 @@ module.exports = {
 	 * @param args: the arguments of the message
 	 * @param blank: True if it is a blank command
 	 * @return boolena: True if is validated, False if not
-	 * @version: 1.0
+	 * @version: 1.2
 	 * @author: Zhijie
 	 */
   checkValidCmd: async function(msg, args, blank){
@@ -417,17 +417,18 @@ module.exports = {
 	 * 
 	 * @param msg: the discord message
 	 * @param args: the arguments of the message
-	 * @param blank: True if it is a blank command
-	 * @version: 1.0
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-  executeCmd: async function(msg, args, blank){
-    let cmd = this.getCmd(args[0], blank)
+  executeCmd: async function(msg, args, info){
+    let cmd = this.getCmd(args[0], info['blank'])
     arguments = args.slice(1)
 
 		// Check the Arguments first, and then execute
     if(cmd.checkArgs(msg, arguments)) {
-     await cmd.execute(msg, arguments)
+     await cmd.execute(msg, arguments, info)
     }
   }
 }

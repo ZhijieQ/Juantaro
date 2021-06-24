@@ -36,7 +36,7 @@ module.exports = class ClearCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is use for clean the message.')
+											'** is used to clean the message.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `None`)
 			.addField('Aliases:', this.aliases)
@@ -54,10 +54,12 @@ module.exports = class ClearCommand extends commands.Command {
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
-	 * @version: 1.0
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-  execute(msg, args){
+  execute(msg, args, info){
 		const number = Number(args[0])
 		var maxNumber;
 

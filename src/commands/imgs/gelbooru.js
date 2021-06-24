@@ -45,7 +45,7 @@ module.exports = class GelbooruCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is use for search image.')
+											'** is used to search image.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 

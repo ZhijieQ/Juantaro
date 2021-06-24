@@ -38,7 +38,7 @@ module.exports = class TestCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is use for test the bot.')
+											'** is used to test the bot.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `None`)
 			.addField('Aliases:', this.aliases)
@@ -56,12 +56,13 @@ module.exports = class TestCommand extends commands.Command {
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
-	 * @version: 1.0
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-  execute(msg){
+  execute(msg, args, info){
     const name = msg.content.trim().split(/\s+/)[1]
-
 		if (name) {
 		  msg.channel.send(`Fuck you ${name}!`)
 		}else{

@@ -46,7 +46,7 @@ module.exports = class ImgsCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is use for search image in google.')
+											'** is used to search image in google.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
@@ -65,10 +65,12 @@ module.exports = class ImgsCommand extends commands.Command {
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
-	 * @version: 1.0
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-	execute(msg, args){
+	execute(msg, args, info){
 		//console.log(args)
 	  gis(args[0], (error, results) => {
 			// If error, return

@@ -40,7 +40,7 @@ module.exports = class ClearCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is use for consult all categories of command.')
+											'** is used to consult all categories of command.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `None`)
 			.addField('Aliases:', this.aliases) 
@@ -58,10 +58,12 @@ module.exports = class ClearCommand extends commands.Command {
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
-	 * @version: 1.0
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-  execute(msg, args){
+  execute(msg, args, info){
 		// Get the command from arg[0]
 		var cmd = commands.getCmd(args[0], false)
 

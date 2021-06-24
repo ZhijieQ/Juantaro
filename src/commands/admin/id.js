@@ -36,12 +36,12 @@ module.exports = class IdCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is use for get the Id of the **User**')
+											'** is used to get the Id of the **User**')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** get **Author Id **.\n' +
-														 '**-@someon:** get Id of **@someone**.')
+														 '**-@someone:** get Id of **@someone**.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -54,10 +54,12 @@ module.exports = class IdCommand extends commands.Command {
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
-	 * @version: 1.0
+	 * @param info: the info config:
+	 * 		-blank: True if it is a blank command
+	 * @version: 2.0
 	 * @author: Zhijie
 	 */
-  execute(msg, args){
+  execute(msg, args, info){
 		var mentions = [];
 
 		// Add each user in the map

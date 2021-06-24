@@ -16,6 +16,7 @@ module.exports = async (client, msg) => {
 	}*/
 
 	var args;
+	var info = {};
 	var blank = false;
 
 	// Check if startsWith with Prefix
@@ -71,5 +72,8 @@ module.exports = async (client, msg) => {
 		return;
 	}
 	db.coinSystem.coins.updateCoin(msg.author.id, 2)
-	await commands.executeCmd(msg, listArgs, blank)
+
+	// Set info config
+	info["blank"] = blank
+	await commands.executeCmd(msg, listArgs, info)
 }
