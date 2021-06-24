@@ -3,35 +3,52 @@ const {
 	RichEmbed
 } = require("discord.js")
 const fetch = require("node-fetch")
-const Database = require("@replit/database")
 const server = require("./src/server")
-const util = require("./util")
+const util = require("./src/util")
 const fs = require('fs')
 const commands = require("./commands.js")
-
+const db = require('./src/database/db.js')
 
 const client = new Client()
-const db = new Database()
 const config = util.getConfig()
 const lang = util.getLanguage();
 const TOKEN = process.env["TOKEN"]
 
+let startTime = Date.now();
 let prefix = config.prefix;
 
-client.on("ready", () =>{
-	console.log(`Logged in as ${client.user.tag}!`)
+for (let file of fs.readdirSync("./events/")) {
+	if(file.endsWith(".js")) {
+		let fileName = file.substring(0, file.length - 3)
+		let fileContents = require(`./events/${file}`);
 
-	client.user.setStatus(config.status['online']) // online, idle, invisible, dnd
-	// console.log('Bot status: ', client.user.presence.status);
+		client.on(fileName, fileContents.bind(null, client));
 
-	client.user.setActivity(config.activity)
+		delete require.cache[require.resolve(`./events/${file}`)];
+	}
+}
+
+
+client.on("ready", async () =>{
+	
+	// Set bot Status (online, idle, invisible, dnd)
+	client.user.setStatus(config.status['online'])
+
+	// Set bot activity
+	client.user.setActivity(config.statusBOT);
 
 	// Register the category from config.js
-	commands.registerCategories(config.categories)
-	// Register all command from ./src/commands/
-	commands.registerCommands()
+ 	commands.registerCategories(config.categories);
 
-	/* Find iterate one by one */
+	// Register all command from ./src/commands/
+ 	commands.registerCommands();
+
+	// Create coins Table if not exists
+	await db.coinSystem.check.createTables();
+
+ 	let time = Date.now() - startTime;
+	console.log(`Logged in as ${client.user.tag}! Used Time: ${time}ms`);
+
 	//const testChannel = client.channels.find(x => x.name === 'test')
 	//console.log(testChannel)
 })
@@ -48,8 +65,6 @@ client.on("message", async msg => {
 
 	var args;
 	var blank = false;
-	//console.log("aa")
-	//console.log(msg.channel)
 
 	// Check if startsWith with Prefix
 	if (msg.content.toLowerCase().startsWith(prefix)){
@@ -59,12 +74,42 @@ client.on("message", async msg => {
 		blank = true;
 	}
 	
+	var listArgs = []
 	// Check if the arguments if defined
+	// If the arguments has sintax '(x x x)',
+	// will be splited to get 'x x x'
 	if(args != undefined){
-		args = args.split(' ');
+		// Split (
+		args = args.split(' "')
+
+		// For each arg, check if contains ')'
+		for(let arg of args){
+			// If contains ')', split it
+			if(arg.endsWith('"')){
+				arg.split('"').forEach(element => {
+					if(element){
+						listArgs.push(element)
+					}
+				})
+			}else if(arg.includes('"')){
+				arg.split('" ').forEach(element => {
+					if(element){
+						listArgs.push(element)
+					}
+				})
+			}
+			// If not contains, split the space
+			else{
+				arg.split(' ').forEach(element => {
+					listArgs.push(element)
+				})
+			}
+		}
+		//console.log(listArgs)
+		//args = args.split(' ');
 	}
 
-	let result = await commands.checkValidCmd(msg, args, blank);
+	let result = await commands.checkValidCmd(msg, listArgs, blank);
 	if(!result){
 		// If the result is false and its not a 
 		// Blank Category command, its a error.
@@ -73,11 +118,14 @@ client.on("message", async msg => {
 		}
 		return;
 	}
-
-	await commands.executeCmd(msg, args, blank)
+	db.coinSystem.coins.updateCoin(msg.author.id, 2)
+	await commands.executeCmd(msg, listArgs, blank)
 })
 
+// Open a port to the server
 server.keepAlive()
+
+// Login the bot
 client.login(TOKEN).catch((err) => {
 	console.error(err);
   process.exitCode = 1;
