@@ -1,7 +1,7 @@
 const commands = require('../commands.js');
 const db = require('../src/database/db.js');
 const util = require('../src/util.js');
-const Discord = require('discord.js')
+const Discord = require('discord.js');
 
 const config = util.getConfig();
 let prefix = config.prefix;
@@ -72,11 +72,11 @@ module.exports = async (client, msg) => {
 		}
 		return;
 	}
-	db.coinSystem.coins.updateCoin(msg.author.id, 2)
+	db.coinSystem.coins.updateCoin(msg.author.id, 2);
 
 	// Set info config
-	info['blank'] = blank
-	info['client'] = client
-	info['discord'] = Discord
+	info["blank"] = blank;
+	info['client'] = client;
+	info['discord'] = Discord;
 	await commands.executeCmd(msg, listArgs, info)
 }
