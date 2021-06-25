@@ -12,7 +12,7 @@ module.exports = class ClearCommand extends commands.Command {
   constructor(){
     super({
       name: 'help',
-      aliases: ['Help', 'man', 'Man'],
+      aliases: ['man'],
       args: [
         new commands.Argument({
           optional: true,
@@ -45,7 +45,7 @@ module.exports = class ClearCommand extends commands.Command {
 			.addField('Prefix:', `None`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** all categories command.\n' +
-														 '**-String:** specific command.')
+														 '**-__String__:** specific command.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -79,6 +79,7 @@ module.exports = class ClearCommand extends commands.Command {
 		// If is not specific command, it is a general command.
 		// So we create the diferents command page for different categories
 
+		// Blank Command
 		const page1 = new discord.MessageEmbed()
 			.setTitle("Help Menu - Blank Command")
 			.setColor('GREEN')
@@ -87,15 +88,8 @@ module.exports = class ClearCommand extends commands.Command {
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
 		
+		// General Command
 		const page2 = new discord.MessageEmbed()
-			.setTitle("Help Menu - Imgs Command")
-			.setColor('Yellow')
-			.setDescription("Those commands need the prefix: j- or J-")
-			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
-			.setFooter(`Created by ${admin.username}`)
-			.setTimestamp()
-		
-		const page3 = new discord.MessageEmbed()
 			.setTitle("Help Menu - General Command")
 			.setColor('BLUE')
 			.setDescription("Those commands need the prefix: j- or J-")
@@ -103,7 +97,26 @@ module.exports = class ClearCommand extends commands.Command {
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
 		
+		// Imgs Command
+		const page3 = new discord.MessageEmbed()
+			.setTitle("Help Menu - Imgs Command")
+			.setColor('Yellow')
+			.setDescription("Those commands need the prefix: j- or J-")
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+		
+		// Music Command
 		const page4 = new discord.MessageEmbed()
+			.setTitle("Help Menu - Music Command")
+			.setColor('Yellow')
+			.setDescription("Those commands need the prefix: j- or J-")
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+		
+		// Admin Command
+		const page100 = new discord.MessageEmbed()
 			.setTitle("Help Menu - Admin Command")
 			.setColor('RED')
 			.setDescription("Those commands need the prefix: j- or J-")
@@ -115,11 +128,13 @@ module.exports = class ClearCommand extends commands.Command {
 			if (command[1].category == 'blank') {
 				page1.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}else if (command[1].category == 'imgs') {
-				page2.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+				page3.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}else if (command[1].category == 'admin') {
+				page100.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}else if (command[1].category == 'music') {
 				page4.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}else {
-				page3.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+				page2.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}
 		}
 
@@ -127,7 +142,8 @@ module.exports = class ClearCommand extends commands.Command {
 			page1,
 			page2,
 			page3,
-			page4
+			page4,
+			page100
 		]
 
 		const emojis = ["⏪", "⏩"]

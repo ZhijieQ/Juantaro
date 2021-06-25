@@ -8,7 +8,7 @@ module.exports = class AvatarCommand extends commands.Command {
   constructor(){
     super({
       name: 'calc',
-      aliases: ['Calc', 'calculate'],
+      aliases: ['calculate'],
       args: [
         new commands.Argument({
           optional: false,
@@ -40,8 +40,8 @@ module.exports = class AvatarCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-String:** the number and operator to calculate like 5+8.\n' +
-														 '**-Number + operator + Number etc:** the number and operator to calculate like 5 + 8.')
+			.addField('Argument:', '**-__String__:** the number and operator to calculate like 5+8.\n' +
+														 '**-__Number + operator + Number etc__:** the number and operator to calculate like 5 + 8.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

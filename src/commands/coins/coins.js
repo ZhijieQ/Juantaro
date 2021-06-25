@@ -5,7 +5,7 @@ module.exports = class CoinsCommand extends Command {
   constructor(){
     super({
       name: 'coins',
-      aliases: ['Coins'],
+      aliases: [],
 			args : [],
       category: 'coins',
       priority: 9,

@@ -1,7 +1,6 @@
 const { Client } = require("discord.js")
 const server = require("./src/server")
 const fs = require('fs')
-
 const client = new Client()
 const TOKEN = process.env["TOKEN"]
 

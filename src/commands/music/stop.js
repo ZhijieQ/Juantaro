@@ -1,29 +1,19 @@
 const commands = require('../../../commands.js')
-const discord = require('discord.js')
-const util = require("../../util")
-const lang = util.getLanguage()
-const config = util.getConfig()
 
-module.exports = class SayCommand extends commands.Command {
-  constructor(){
-    super({
-      name: 'say',
-      aliases: ['s'],
-      args: [
-        new commands.Argument({
-          optional: false,	// Require the argument
-					type: "string",
-          missingError: lang.error.noArgs.arg,
-          invalidError: lang.error.incoArgs.text
-        })
-      ],
-      category: 'test',
-      priority: 9,
-      permLvl: 0
-    });
+module.exports = class StopCommand extends commands.Command {
+  constructor() {
+   super({
+    name: 'stop',
+    aliases: [],
+		args: [],
+    category: 'music',
+    priority: 7,
+    permLvl: 0
+   })
   }
 
-  /**
+
+	/**
 	 * Implementation for specific help command.
 	 * 
    * @param admin: the admin class of discord bot 
@@ -36,11 +26,11 @@ module.exports = class SayCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** makes bot to response you with same phrases.')
+											'** is used to stop the music.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-__String__:** the phrases.\n')
+			.addField('Argument:', '**-None:** stop the music.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -48,17 +38,29 @@ module.exports = class SayCommand extends commands.Command {
 		return embed
 	}
 
-  /**
-   * Send the same message to the channel.
+	/**
+	 * Stop the music.
 	 * 
-	 * @param msg: the admin class of discord bot
+   * @param msg: the admin class of discord bot
    * @param args: the argments of the command
 	 * @param info: the info config:
 	 * 		-blank: True if it is a blank command
-	 * @version: 2.0
+	 * @version: 1.0
 	 * @author: Zhijie
 	 */
-  execute(msg, args, info){
-    msg.channel.send(args.join(' '));
+  async execute(msg, args, info) {
+		const queue = info['client'].queue;
+		const serverQueue = queue.get(msg.guild.id);
+
+		if(!msg.member.voice.channel)
+			return msg.channel.send('You should be connected in a voice channel.')
+
+		if(!serverQueue)
+			return msg.channel.send('No song is playing.')
+		
+		serverQueue.songs = [];
+		
+		await serverQueue.connection.dispatcher.end();
+		return msg.channel.send('Song Stoped.')
   }
 }

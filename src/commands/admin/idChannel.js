@@ -8,7 +8,7 @@ module.exports = class IdChannelCommand extends commands.Command {
   constructor(){
     super({
       name: 'idC',
-      aliases: ['idChannel', 'idchannel', 'IdChannel', 'Idchannel'],
+      aliases: ['idchannel'],
       args: [
         new commands.Argument({
           optional: true,
@@ -41,7 +41,7 @@ module.exports = class IdChannelCommand extends commands.Command {
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** get Id of this channel.\n' +
-														 '**-#channel:** get Id of **#channel**.')
+														 '**-__#channel__:** get Id of **__#channel__**.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -60,9 +60,15 @@ module.exports = class IdChannelCommand extends commands.Command {
 	 * @author: Zhijie
 	 */
   execute(msg, args, info){
-		//console.log(msg.channel)
-    let mentions = msg.channel;
-    
-    msg.channel.send(mentions.id);
+		var mentions = [];
+
+		// Add each user in the map
+		for (var channel of msg.mentions.channels) {
+			// channel[0] is the id, channel[1] is the obj
+			var name = `${channel[1].name}: ${channel[0]}`
+			mentions.push(name)
+		}
+
+    msg.channel.send(mentions);
   }
 }

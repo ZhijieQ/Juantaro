@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/ZhijieQ/Juantaro#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.5.3",
+    "@discordjs/opus": "^0.3.3",
     "@replit/database": "^2.0.1",
     "axios": "^0.21.1",
     "booru": "^2.4.0",
@@ -35,6 +35,6 @@
     "simple-youtube-api": "^5.2.1",
     "sqlite3": "^5.0.2",
     "youtube-search": "^1.1.6",
-    "ytdl-core": "^4.8.2"
+    "ytdl-core": "git://github.com/fent/node-ytdl-core.git#d1f535712410eebd79a7468abd07d94f8c4ebe5a"
   }
 }
