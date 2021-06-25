@@ -8,7 +8,7 @@ module.exports = class SayCommand extends commands.Command {
   constructor(){
     super({
       name: 'say',
-      aliases: ['s', 'Say'],
+      aliases: ['s'],
       args: [
         new commands.Argument({
           optional: false,	// Require the argument
@@ -40,7 +40,7 @@ module.exports = class SayCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-String:** the phrases.\n')
+			.addField('Argument:', '**-__String__:** the phrases.\n')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

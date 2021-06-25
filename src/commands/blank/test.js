@@ -10,7 +10,7 @@ module.exports = class TestCommand extends commands.Command {
   constructor(){
     super({
       name: 'test',
-      aliases: ['Test'],
+      aliases: [],
 			args: [
 				new commands.Argument({
           optional: true,
@@ -42,8 +42,8 @@ module.exports = class TestCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `None`)
 			.addField('Aliases:', this.aliases)
-			.addField('Argument:', '**-None:** response a message to **Author**.\n' +
-														 '**-@someone:** response a message to **@someone**.')
+			.addField('Argument:', '**-None:** response a message to **__Author__**.\n' +
+														 '**-__@someone__:** response a message to **__@someone__**.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

@@ -17,7 +17,7 @@ module.exports = class GelbooruCommand extends commands.Command {
   constructor(){
     super({
       name: 'gelbooru',
-      aliases: ['Gelbooru'],
+      aliases: [],
       args: [
         new commands.Argument({
           optional: false,

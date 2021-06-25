@@ -1,9 +1,9 @@
 const commands = require('../../../commands.js')
 
-module.exports = class StopCommand extends commands.Command {
+module.exports = class QueueCommand extends commands.Command {
   constructor() {
    super({
-    name: 'stop',
+    name: 'queue',
     aliases: [],
 		args: [],
     category: 'music',
@@ -26,11 +26,11 @@ module.exports = class StopCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is used to stop the music.')
+											'** is used to list all queue music.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-None:** stop the music.')
+			.addField('Argument:', '**-None:** list all queue music.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -39,7 +39,7 @@ module.exports = class StopCommand extends commands.Command {
 	}
 
 	/**
-	 * Stop the music.
+	 * List all queue music.
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
@@ -58,9 +58,22 @@ module.exports = class StopCommand extends commands.Command {
 		if(!serverQueue)
 			return msg.channel.send('No song is playing.')
 		
-		serverQueue.songs = [];
-		
-		await serverQueue.connection.dispatcher.end();
-		return msg.channel.send('Song Stoped.')
+		const queueSongs = serverQueue.songs;
+
+		// Changing informations to Sring format
+		let listSongs = queueSongs.slice(1, 10).map(song => {
+			let durationSeconds = song.duration.seconds < 9 ? '0' + song.duration.seconds : song.duration.seconds;
+			let durationMinutes = song.duration.minutes < 9 ? '0' + song.duration.minutes : song.duration.minutes;
+			let durationHours = song.duration.hours < 9 ? '0' + song.duration.hours : song.duration.hours;
+
+			return `**=>** ${song.title} - **__${durationHours}:${durationMinutes}:${durationSeconds}__**`;
+		})
+
+		const queueEmbed = new discord.MessageEmbed()
+			.setColor('RANDOM')
+			.setThumbnail(queueSongs[0].thumbnail)
+			.setDescription(`Reproducing Now:\n**${queueSongs[0].title}**\n\n========================\n${listSongs.join('\n')}`)
+
+    return msg.channel.send('Server song list **__'+ msg.guild.name + '__**', {embed: queueEmbed})
   }
 }

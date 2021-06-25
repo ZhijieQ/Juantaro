@@ -1,9 +1,9 @@
-const commands = require('../../../commands.js')
+	const commands = require('../../../commands.js')
 
-module.exports = class StopCommand extends commands.Command {
+module.exports = class ClearQueueCommand extends commands.Command {
   constructor() {
    super({
-    name: 'stop',
+    name: 'clearqueue',
     aliases: [],
 		args: [],
     category: 'music',
@@ -26,11 +26,11 @@ module.exports = class StopCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is used to stop the music.')
+											'** is used to clear music queue.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-None:** stop the music.')
+			.addField('Argument:', '**-None:** clear the music queue.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -39,7 +39,7 @@ module.exports = class StopCommand extends commands.Command {
 	}
 
 	/**
-	 * Stop the music.
+	 * Clear the queue.
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
@@ -52,15 +52,11 @@ module.exports = class StopCommand extends commands.Command {
 		const queue = info['client'].queue;
 		const serverQueue = queue.get(msg.guild.id);
 
-		if(!msg.member.voice.channel)
-			return msg.channel.send('You should be connected in a voice channel.')
-
 		if(!serverQueue)
 			return msg.channel.send('No song is playing.')
 		
 		serverQueue.songs = [];
-		
-		await serverQueue.connection.dispatcher.end();
-		return msg.channel.send('Song Stoped.')
+
+		return msg.channel.send('The queue has been cleaned.')
   }
 }

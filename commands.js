@@ -73,7 +73,13 @@ class Command {
 	 * @author: Zhijie
 	 */
 	help(){
-		var help = `${this.name}, ${this.aliases.join(", ")}`
+		const help = this.aliases.length > 0 ? `${this.name}, ${this.aliases.join(", ")}` : `${this.name}`;
+		/*if (this.aliases) {
+			help = `${this.name}, ${this.aliases.join(", ")}`
+		}else{
+			help = `${this.name}`
+		}*/
+		
 		/*var help = 'Prefix j-/J-\n' +
 							 `${this.name}, ${this.aliases.join(", ")}`*/
 		return help
@@ -193,7 +199,7 @@ class Category {
 	 * @author: Zhijie
 	 */
   addCommand(command){
-    this.commands.set(command.name, command)
+    this.commands.set(command.name.toLowerCase(), command)
   }
 }
 
@@ -292,7 +298,7 @@ module.exports = {
 
 							if (blank) {
 								// Set a blank command
-								this.blankCommands.set(command.name, command)
+								this.blankCommands.set(command.name.toLowerCase(), command)
 
 								// Set all alias
 								for (var alias of command.aliases){
@@ -301,7 +307,7 @@ module.exports = {
 							}
 
 							// Set a command
-							this.commands.set(command.name, command)
+							this.commands.set(command.name.toLowerCase(), command)
 
 							// Set all alias
 							for (var alias of command.aliases){
@@ -368,21 +374,25 @@ module.exports = {
 	 */
   getCmd: function(name, blank){
 		var command;
+		if (!name) {
+			return command
+		}
+		const nameLower = name.toLowerCase();
 
 		// Check if its a blank command
 		if (blank) {
-			command = this.blankCommands.get(name);
+			command = this.blankCommands.get(nameLower);
 
 			// If there is no command, maybe is a alias
 			if(!command) {
-				command = this.blankNamesAliases.get(name)
+				command = this.blankNamesAliases.get(nameLower)
 			}
 		}else{
-			command = this.commands.get(name);
+			command = this.commands.get(nameLower);
 
 			// If there is no command, maybe is a alias
 			if(!command) {
-				command = this.namesAliases.get(name)
+				command = this.namesAliases.get(nameLower)
 			}
 		}
 

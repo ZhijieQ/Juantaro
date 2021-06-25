@@ -13,7 +13,7 @@ module.exports = class PlayCommand extends commands.Command {
   constructor(){
     super({
       name: 'play',
-      aliases: ['p', 'Play', 'P'],
+      aliases: ['p'],
       args: [
         new commands.Argument({
           optional: false,
@@ -41,11 +41,12 @@ module.exports = class PlayCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is used to play music')
+											'** is used to play the music.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-"String":** play the music indicate **composed String**.')
+			.addField('Argument:', '**-__String__:** play the music indicating the **__String__**.\n' +
+														 '**-__URL__:** play the music indicating the **__URL__**')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -60,13 +61,13 @@ module.exports = class PlayCommand extends commands.Command {
    * @param args: the argments of the command
 	 * @param info: the info config:
 	 * 		-blank: True if it is a blank command
-	 * @version: 2.0
+	 * @version: 1.0
 	 * @author: Zhijie
 	 */
   async execute(msg, args, info){
 		const queue = info['client'].queue;
 		let guild = msg.guild;
-		//const map = info['client'].skipvote;
+		const map = info['client'].skipvote;
 
 		// Check if bot is in the voice channel
 		const voiceChannel = msg.member.voice.channel;
@@ -105,13 +106,6 @@ module.exports = class PlayCommand extends commands.Command {
 				quality: "highestaudio"
 			})
 
-			/*console.log("B:")
-			console.log(song.url)
-			console.log(stream)
-			console.log(serverQueue.connection)
-			console.log(serverQueue)*/
-			//console.log(stream)
-
 			// The dispatcher play to song.
 			var dispatcher = await serverQueue.connection.play(stream)
 				// Music finish event. Reproduce next song if has.
@@ -119,7 +113,9 @@ module.exports = class PlayCommand extends commands.Command {
 					// Eliminate the song that are reproducing
 					serverQueue.songs.shift();
 
-					//await map.delete(guild.id);
+					// Delete this song skipvote
+					await map.delete(guild.id);
+
 					// Always try to play first video of the queue
 					await play(guild, serverQueue.songs[0])
 				})
@@ -195,7 +191,7 @@ module.exports = class PlayCommand extends commands.Command {
 					connection: null, // For discord voice channel
 					songs:[],
 					playing: true,
-					volume: 1
+					volume: 0.5
 				}
 
 				try {
@@ -229,16 +225,22 @@ module.exports = class PlayCommand extends commands.Command {
 			let song = args.join(" ");
 
 			try {
+				// Search a list of valiable videos
 				let videos = await youtube.searchVideos(song, 10)
-				if (!videos.length) return msg.channel.send('No se encontraron resultados de busqueda, pruebe enviando el enlace de Youtube')
+
+				// If there is no video, send a infor message
+				if (!videos.length) return msg.channel.send('No search results found, try submitting the Youtube link.')
+				
+				// Making infor message
 				let index = 0
 				const embed = new discord.MessageEmbed()
-				.setDescription(`${videos.map((video) => `**${++index}** - ${video.title}`).join('\n')}`)
-				.setColor('RANDOM')
+					.setDescription(`${videos.map((video) => `**${++index}** - ${video.title}`).join('\n')}`)
+					.setColor('RANDOM')
 
-				msg.channel.send(embed)
+				msg.channel.send(embed);
+
 				let optionSearch;
-
+				// Ask author what video want to reproduce
 				try {
 					optionSearch = await msg.channel.awaitMessages((msg2) => msg2.content > 0 && msg2.content < 11 && msg.author.id === msg2.author.id, {
 						max: 1,
@@ -246,13 +248,16 @@ module.exports = class PlayCommand extends commands.Command {
 						errors: ['time']
 					});
 				} catch (error) {
-					return msg.channel.send('La opción de busqueda se ha cancelado.')
+					return msg.channel.send('The search option is cancelled.')
 				}
 
-				const videoIndex = parseInt(optionSearch.first().content, 10)
-    		video = await youtube.getVideoByID(videos[videoIndex - 1].id)
+				// Parser the content. Use base 10
+				const videoIndex = parseInt(optionSearch.first().content, 10);
+
+				// Get video with index
+    		video = await youtube.getVideoByID(videos[videoIndex - 1].id);
 			} catch (error) {
-				return msg.channel.send('Hubo un error en la busqueda de resultados.')
+				return msg.channel.send('There was an error in the search results.')
 			}
 		}
 

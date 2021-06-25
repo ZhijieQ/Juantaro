@@ -1,9 +1,9 @@
 const commands = require('../../../commands.js')
 
-module.exports = class StopCommand extends commands.Command {
+module.exports = class ResumeCommand extends commands.Command {
   constructor() {
    super({
-    name: 'stop',
+    name: 'resume',
     aliases: [],
 		args: [],
     category: 'music',
@@ -26,11 +26,11 @@ module.exports = class StopCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is used to stop the music.')
+											'** is used to resume the music.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-None:** stop the music.')
+			.addField('Argument:', '**-None:** resume the music.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -39,7 +39,7 @@ module.exports = class StopCommand extends commands.Command {
 	}
 
 	/**
-	 * Stop the music.
+	 * Resume the music.
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
@@ -58,9 +58,14 @@ module.exports = class StopCommand extends commands.Command {
 		if(!serverQueue)
 			return msg.channel.send('No song is playing.')
 		
-		serverQueue.songs = [];
-		
-		await serverQueue.connection.dispatcher.end();
-		return msg.channel.send('Song Stoped.')
+		if(serverQueue && !serverQueue.playing) {
+			serverQueue.playing = true;
+			//console.log('En pausa');
+			serverQueue.connection.dispatcher.resume();
+
+			return msg.channel.send('Song Resumed.');
+		}else{
+			return msg.channel.send('The song is playing.')
+		}
   }
 }

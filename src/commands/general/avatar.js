@@ -8,7 +8,7 @@ module.exports = class AvatarCommand extends commands.Command {
   constructor(){
     super({
       name: 'avatar',
-      aliases: ['Avatar'],
+      aliases: [],
       args: [
         new commands.Argument({
           optional: true,
@@ -41,7 +41,7 @@ module.exports = class AvatarCommand extends commands.Command {
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** consult **Author** avatar.\n' +
-														 '**-@someone:** consult **@someone** avatar.')
+														 '**-__@someone__:** consult **__@someone__** avatar.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

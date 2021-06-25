@@ -15,7 +15,7 @@ module.exports = class AvatarCommand extends commands.Command {
   constructor(){
     super({
       name: 'search',
-      aliases: ['Search'],
+      aliases: [],
       args: [
         new commands.Argument({
           optional: false,
@@ -47,7 +47,7 @@ module.exports = class AvatarCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-String:** search the **String** image.\n')
+			.addField('Argument:', '**-__String__:** search the **__String__** image.\n')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

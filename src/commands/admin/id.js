@@ -8,7 +8,7 @@ module.exports = class IdCommand extends commands.Command {
   constructor(){
     super({
       name: 'id',
-      aliases: ['Id', 'idMember', 'idmember'],
+      aliases: ['idmember'],
       args: [
         new commands.Argument({
           optional: false,
@@ -41,7 +41,7 @@ module.exports = class IdCommand extends commands.Command {
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** get **Author Id **.\n' +
-														 '**-@someone:** get Id of **@someone**.')
+														 '**-__@someone__:** get Id of **__@someone__**.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
