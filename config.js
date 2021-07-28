@@ -15,7 +15,8 @@ module.exports = {
 		{name: 'blank', priority: 8},
 		{name: 'imgs', priority: 8},
 		{name: 'coins', priority: 8},
-		{name: 'music', priority: 5}
+		{name: 'music', priority: 5},
+		{name: 'minecraft', priority: 4}
   ],
   groups: [
 		{name: "User", permLvl: 0}, 
@@ -30,4 +31,5 @@ module.exports = {
 		3: "Admin"
 	},
 	language: "English",
+	minecraftServer: "81.40.214.192",
 }

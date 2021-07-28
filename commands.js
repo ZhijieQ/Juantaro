@@ -74,11 +74,6 @@ class Command {
 	 */
 	help(){
 		const help = this.aliases.length > 0 ? `${this.name}, ${this.aliases.join(", ")}` : `${this.name}`;
-		/*if (this.aliases) {
-			help = `${this.name}, ${this.aliases.join(", ")}`
-		}else{
-			help = `${this.name}`
-		}*/
 		
 		/*var help = 'Prefix j-/J-\n' +
 							 `${this.name}, ${this.aliases.join(", ")}`*/

@@ -31,6 +31,7 @@
     "fs": "^0.0.2",
     "g-i-s": "^2.1.6",
     "jsdom": "^16.6.0",
+    "minestat": "^1.0.3",
     "node-fetch": "^2.6.1",
     "simple-youtube-api": "^5.2.1",
     "sqlite3": "^5.0.2",
