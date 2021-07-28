@@ -31,5 +31,4 @@ module.exports = {
 		3: "Admin"
 	},
 	language: "English",
-	minecraftServer: "81.40.214.192",
 }
