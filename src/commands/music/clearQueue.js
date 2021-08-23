@@ -43,8 +43,7 @@ module.exports = class ClearQueueCommand extends commands.Command {
 	 * 
    * @param msg: the admin class of discord bot
    * @param args: the argments of the command
-	 * @param info: the info config:
-	 * 		-blank: True if it is a blank command
+	 * @param info: the info config for Music Module
 	 * @version: 1.0
 	 * @author: Zhijie
 	 */
