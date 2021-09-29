@@ -5,6 +5,8 @@ const lang = util.getLanguage()
 const config = util.getConfig()
 const fs = require('fs');
 var ms = require('minestat');
+const net = require('net');
+const mc_util = require('minecraft-server-util');
 
 module.exports = class MinecraftCommand extends commands.Command {
   constructor(){
@@ -62,18 +64,33 @@ module.exports = class MinecraftCommand extends commands.Command {
 		const server = JSON.parse(rawdata).ip;
 		console.log(server)
 
+		var alive = true
+		await mc_util.status(server) // port is default 25565
+		.then((response) => {
+			// console.log(response);
+		})
+		.catch((error) => {
+			msg.channel.send("Server has problem with IP and Port!");
+			alive = false
+		});
+		
+		if(!alive){
+			return;
+		}
+
+
 		ms.init(server, 25565, result => {
 			if(ms.online){
 				const embed = new discord.MessageEmbed()
 					.setTitle("Juantaro Server Status")
 					.addField('Server IP:', ms.address)
 					.addField('Information:', "Server is online running version " +
-																		 ms.version +
-																		 " with " +
-																		 ms.current_players +
-																		 " out of " +
-																		 ms.max_players +
-																		 " players.")
+																		ms.version +
+																		" with " +
+																		ms.current_players +
+																		" out of " +
+																		ms.max_players +
+																		" players.")
 					.addField('Message of the day:', ms.motd)
 					.addField('Latency:', ms.latency + "ms")
 					.setColor('RANDOM')
@@ -86,5 +103,6 @@ module.exports = class MinecraftCommand extends commands.Command {
 				msg.channel.send("Server is offline!");
 			}
 		});
+		
 	}
 }

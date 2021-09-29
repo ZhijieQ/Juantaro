@@ -40,8 +40,8 @@ module.exports = class AvatarCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-__String__:** the number and operator to calculate like 5+8.\n' +
-														 '**-__Number + operator + Number etc__:** the number and operator to calculate like 5 + 8.')
+			.addField('Argument:', '**-<_String_>:** the number and operator to calculate like 5+8.\n' +
+														 '**-<_Number + operator + Number etc_>:** the number and operator to calculate is like 5 + 8. **!This command has bug that need to be solved**')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

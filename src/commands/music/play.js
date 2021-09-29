@@ -45,8 +45,8 @@ module.exports = class PlayCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-__String__:** play the music indicating the **__String__**.\n' +
-														 '**-__URL__:** play the music indicating the **__URL__**')
+			.addField('Argument:', '**-<_String_>:** play the music indicating the **_String_**.\n' +
+														 '**-<_URL_>:** play the music indicating the **_URL_**')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

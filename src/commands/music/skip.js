@@ -67,7 +67,7 @@ module.exports = class SkipCommand extends commands.Command {
 		// Use for check user vote, only one vote/user
 		const map = info['client'].skipvote;
 		const listUser = map.get(msg.guild.id);
-		const skipNumber = parseInt(msg.member.voice.channel.members.size / 2);
+		const skipNumber = parseInt(msg.member.voice.channel.members.size / 2) + 1;
 
 		// If there is a listUser, means the users are voting.
 		if (listUser) {

@@ -41,7 +41,7 @@ module.exports = class ClearCommand extends commands.Command {
 			.addField('Prefix:', `None`)
 			.addField('Aliases:', this.aliases)
 			.addField('Argument:', '**-None:** clean 100 message.\n' +
-														 '**-__Number__:** clean number message.')
+														 '**-<_Number_>:** clean number message.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

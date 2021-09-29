@@ -31,9 +31,11 @@
     "fs": "^0.0.2",
     "g-i-s": "^2.1.6",
     "jsdom": "^16.6.0",
+    "minecraft-server-util": "^3.6.0",
     "minestat": "^1.0.3",
     "node-fetch": "^2.6.1",
     "simple-youtube-api": "^5.2.1",
+    "socket.io": "^4.2.0",
     "sqlite3": "^5.0.2",
     "youtube-search": "^1.1.6",
     "ytdl-core": "git://github.com/fent/node-ytdl-core.git#d1f535712410eebd79a7468abd07d94f8c4ebe5a"

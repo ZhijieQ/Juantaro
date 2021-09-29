@@ -41,7 +41,7 @@ module.exports = class IdChannelCommand extends commands.Command {
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** get Id of this channel.\n' +
-														 '**-__#channel__:** get Id of **__#channel__**.')
+														 '**-<_#channel_>:** get Id of **_#channel_**.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

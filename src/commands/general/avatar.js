@@ -41,7 +41,7 @@ module.exports = class AvatarCommand extends commands.Command {
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** consult **Author** avatar.\n' +
-														 '**-__@someone__:** consult **__@someone__** avatar.')
+														 '**-<_@someone_>:** consult **_@someone_** avatar.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

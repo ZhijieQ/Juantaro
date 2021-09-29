@@ -41,7 +41,7 @@ module.exports = class MinecraftCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**xxx.xxx.xxx.xxx:** the new IP of the server.')
+			.addField('Argument:', '**-<_xxx.xxx.xxx.xxx_>:** the new IP for minectaft server, only few people have permission.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

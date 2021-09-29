@@ -44,8 +44,8 @@ module.exports = class ClearCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `None`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-None:** all categories command.\n' +
-														 '**-__String__:** specific command.')
+			.addField('Argument:', '**-None:** visualice all categories command.\n' +
+														 '**-<_String_>:** visualice specific command.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -89,7 +89,7 @@ module.exports = class ClearCommand extends commands.Command {
 		
 		// General Command
 		const page2 = new discord.MessageEmbed()
-			.setTitle("Help Menu - General Command")
+			.setTitle("General Command")
 			.setColor('BLUE')
 			.setDescription("Those commands need the prefix: j- or J-")
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
@@ -98,7 +98,7 @@ module.exports = class ClearCommand extends commands.Command {
 		
 		// Imgs Command
 		const page3 = new discord.MessageEmbed()
-			.setTitle("Help Menu - Imgs Command")
+			.setTitle("Imgs Command")
 			.setColor('Yellow')
 			.setDescription("Those commands need the prefix: j- or J-")
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
@@ -107,7 +107,16 @@ module.exports = class ClearCommand extends commands.Command {
 		
 		// Music Command
 		const page4 = new discord.MessageEmbed()
-			.setTitle("Help Menu - Music Command")
+			.setTitle("Music Command")
+			.setColor('Yellow')
+			.setDescription("Those commands need the prefix: j- or J-")
+			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
+			.setFooter(`Created by ${admin.username}`)
+			.setTimestamp()
+		
+		// Music Command
+		const page5 = new discord.MessageEmbed()
+			.setTitle("Minecraft Command")
 			.setColor('Yellow')
 			.setDescription("Those commands need the prefix: j- or J-")
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
@@ -116,7 +125,7 @@ module.exports = class ClearCommand extends commands.Command {
 		
 		// Admin Command
 		const page100 = new discord.MessageEmbed()
-			.setTitle("Help Menu - Admin Command")
+			.setTitle("Admin Command")
 			.setColor('RED')
 			.setDescription("Those commands need the prefix: j- or J-")
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
@@ -132,6 +141,8 @@ module.exports = class ClearCommand extends commands.Command {
 				page100.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}else if (command[1].category == 'music') {
 				page4.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
+			}else if (command[1].category == 'minecraft') {
+				page5.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}else {
 				page2.addField(`${util.capitalize(command[0])}:`, command[1].help(), true)
 			}
@@ -142,6 +153,7 @@ module.exports = class ClearCommand extends commands.Command {
 			page2,
 			page3,
 			page4,
+			page5,
 			page100
 		]
 

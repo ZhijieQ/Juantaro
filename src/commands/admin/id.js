@@ -41,7 +41,7 @@ module.exports = class IdCommand extends commands.Command {
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
 			.addField('Argument:', '**-None:** get **Author Id **.\n' +
-														 '**-__@someone__:** get Id of **__@someone__**.')
+														 '**-<_@someone_>:** get Id of **_@someone_**.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()

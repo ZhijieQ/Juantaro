@@ -12,7 +12,7 @@ module.exports = class ImgsCommand extends commands.Command {
   constructor(){
     super({
       name: 'img',
-      aliases: ['imgs'],
+      aliases: ['imgs', 'search'],
       args: [
         new commands.Argument({
           optional: false,
@@ -50,9 +50,9 @@ module.exports = class ImgsCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', '**-__String__:** search the **__String__** image.\n' +
-														 '**-__"String"__:** search the **__String__** image if the Strings are composed.\n' +
-														 '**-__String/"String__" Number:** search the **__index Number__** image with **__String__** composed.')
+			.addField('Argument:', '**-<_String_>:**  search the **_String_** image.\n' +
+														 '**-"<_String_>":**  search the **"_String_"** image if the Strings are composed.\n' +
+														 '**-<_String_>/"<_String_>" <_Number_>:**  search the nºth image.')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
