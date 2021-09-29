@@ -2,6 +2,7 @@ const commands = require('../commands.js');
 const db = require('../src/database/db.js');
 const util = require('../src/util.js');
 const Discord = require('discord.js');
+const lang = util.getLanguage()
 
 const config = util.getConfig();
 let prefix = config.prefix;

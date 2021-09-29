@@ -12,8 +12,8 @@ const youtube = new YouTube(Credential)
 module.exports = class PlayCommand extends commands.Command {
   constructor(){
     super({
-      name: 'play',
-      aliases: ['p'],
+      name: 'playE',
+      aliases: [],
       args: [
         new commands.Argument({
           optional: false,
@@ -41,7 +41,7 @@ module.exports = class PlayCommand extends commands.Command {
 			.setTitle(`${util.capitalize(this.name)}`)
 			.setColor('YELLOW')
 			.setDescription(`The command **${this.name}` + 
-											'** is used to play the first music from search.')
+											'** is like *_j-play_* but there will be a selecting list.')
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
@@ -225,13 +225,36 @@ module.exports = class PlayCommand extends commands.Command {
 
 			try {
 				// Search a list of valiable videos
-				let videos = await youtube.searchVideos(song, 1)
+				let videos = await youtube.searchVideos(song, 10)
 
 				// If there is no video, send a infor message
 				if (!videos.length) return msg.channel.send('No search results found, try submitting the Youtube link.')
+				
+				// Making infor message
+				let index = 0
+				const embed = new discord.MessageEmbed()
+					.setDescription(`${videos.map((video) => `**${++index}** - ${video.title}`).join('\n')}`)
+					.setColor('RANDOM')
+
+				msg.channel.send(embed);
+
+				let optionSearch;
+				// Ask author what video want to reproduce
+				try {
+					optionSearch = await msg.channel.awaitMessages((msg2) => msg2.content > 0 && msg2.content < 11 && msg.author.id === msg2.author.id, {
+						max: 1,
+						time: 30000,
+						errors: ['time']
+					});
+				} catch (error) {
+					return msg.channel.send('The search option is cancelled.')
+				}
+
+				// Parser the content. Use base 10
+				const videoIndex = parseInt(optionSearch.first().content, 10);
 
 				// Get video with index
-    		video = await youtube.getVideoByID(videos[0].id);
+    		video = await youtube.getVideoByID(videos[videoIndex - 1].id);
 			} catch (error) {
 				return msg.channel.send('There was an error in the search results.')
 			}
