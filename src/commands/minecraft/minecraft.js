@@ -13,7 +13,14 @@ module.exports = class MinecraftCommand extends commands.Command {
     super({
       name: 'minecraft',
       aliases: ['mc'],
-      args: [],
+      args: [
+				new commands.Argument({
+          optional: true,
+					type: "mention",
+          missingError: lang.error.noArgs.mention,
+          invalidError: lang.error.incoArgs.text
+        })
+			],
       category: 'minecraft',
       priority: 9,
       permLvl: 0
@@ -37,7 +44,8 @@ module.exports = class MinecraftCommand extends commands.Command {
 			.addField('Permission:', config.permission[this.permLvl])
 			.addField('Prefix:', `${util.capitalize(config.prefix)}, ${config.prefix}`)
 			.addField('Aliases:', this.aliases) 
-			.addField('Argument:', 'None:** Check Juantaro Server Status.')
+			.addField('Argument:', '**None:** Check Juan Server Status.\n' + 
+														 '**-<_@someone_>:** check **_@someone_** Server Status')
 			.setThumbnail('https://i.redd.it/7ff02zhiuym61.jpg')
 			.setFooter(`Created by ${admin.username}`)
 			.setTimestamp()
@@ -55,14 +63,21 @@ module.exports = class MinecraftCommand extends commands.Command {
 	 * @author: Zhijie
 	 */
   async execute(msg, args, info){
+		// console.log(args)
+
 		if (!fs.existsSync("./minecraftIp.json")) {
 			msg.channel.send(`There is an internal bug, pls contact with <@!${config.superusers[0]}> as soon as possible.`)
 			return
 		}
 
 		const rawdata  = fs.readFileSync('minecraftIp.json');
-		const server = JSON.parse(rawdata).ip;
-		console.log(server)
+		let server = "0.0.0.0"
+		if(args[0] == undefined || args[0] == "<@!433633517902102537>" || args[0] == "<@!811532438207463455>"){
+			server = JSON.parse(rawdata).JuanIp;
+		}else if(args[0] == "<@!424632185291538441>"){
+			server = JSON.parse(rawdata).RoberIp;
+		}
+		// console.log(server)
 
 		var alive = true
 		await mc_util.status(server) // port is default 25565
@@ -70,7 +85,7 @@ module.exports = class MinecraftCommand extends commands.Command {
 			// console.log(response);
 		})
 		.catch((error) => {
-			msg.channel.send("Server has problem with IP and Port!");
+			msg.channel.send("The server is not open!");
 			alive = false
 		});
 		

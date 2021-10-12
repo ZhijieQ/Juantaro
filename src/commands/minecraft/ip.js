@@ -71,23 +71,46 @@ module.exports = class MinecraftCommand extends commands.Command {
 	 * @author: Zhijie
 	 */
   async execute(msg, args, info){
-		if(msg.author.id != "433633517902102537" && msg.author.id != "322787975630946306"){
-			msg.channel.send(`${msg.author}, You dont have permission to change Ip!`)
-			return
-		}
+		const fileName = "minecraftIp.json"
+		const file = JSON.parse(fs.readFileSync(fileName, 'utf8'));
+		console.log(file)
 
-		if(this.validator(args[0]) == true){
-			const dict = {
-				ip : args[0]
-			}
-
-			let data = JSON.stringify(dict);
-			fs.writeFile('minecraftIp.json', data, (err) => {
-				if (err) throw err;
-				msg.channel.send('The Ip of the Minecraft Server is Changed!');
-			});
-		}else{
+		/* If the Ip is not correct, finish then */
+		if(this.validator(args[0]) == false){
 			msg.channel.send('Pls check the IP first before using this command.')
+			return;
 		}
+
+		if(msg.author.id == "433633517902102537" || msg.author.id == "811532438207463455" || msg.author.id == "322787975630946306" ){
+			file.JuanIp = args[0]
+		}else if(msg.author.id == "433633517902102537"){
+			file.RoberIp = args[0]
+		}
+
+		fs.writeFile(fileName, JSON.stringify(file, null, 2), function writeJSON(err) {
+			if (err) return console.log(err);
+			console.log(JSON.stringify(file));
+			console.log('writed to ' + fileName);
+			msg.channel.send('The Ip of the Minecraft Server is Changed!');
+		});
+		return;
+		// if(msg.author.id != "433633517902102537" && msg.author.id != "322787975630946306"){
+		// 	msg.channel.send(`${msg.author}, You dont have permission to change Ip!`)
+		// 	return
+		// }
+
+		// if(this.validator(args[0]) == true){
+		// 	const dict = {
+		// 		ip : args[0]
+		// 	}
+
+		// 	let data = JSON.stringify(dict);
+		// 	fs.writeFile('minecraftIp.json', data, (err) => {
+		// 		if (err) throw err;
+		// 		msg.channel.send('The Ip of the Minecraft Server is Changed!');
+		// 	});
+		// }else{
+		// 	msg.channel.send('Pls check the IP first before using this command.')
+		// }
 	}
 }
