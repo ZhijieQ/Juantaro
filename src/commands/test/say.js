@@ -59,5 +59,6 @@ module.exports = class SayCommand extends commands.Command {
 	 */
   execute(msg, args, info){
     msg.channel.send(args.join(' '));
+		// console.log(msg)
   }
 }

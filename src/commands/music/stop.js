@@ -50,6 +50,7 @@ module.exports = class StopCommand extends commands.Command {
   async execute(msg, args, info) {
 		const queue = info['client'].queue;
 		const serverQueue = queue.get(msg.guild.id);
+		let guild = msg.guild;
 
 		if(!msg.member.voice.channel)
 			return msg.channel.send('You should be connected in a voice channel.')
@@ -59,7 +60,15 @@ module.exports = class StopCommand extends commands.Command {
 		
 		serverQueue.songs = [];
 		
-		await serverQueue.connection.dispatcher.end();
+		if(serverQueue.connection.dispatcher){
+			await serverQueue.connection.dispatcher.end();
+		}
+		
+		// Wait for the bot to exit the voice channel
+		await serverQueue.voiceChannel.leave();
+		
+		// Delete the queue from this server.
+		await queue.delete(guild.id);
 		return msg.channel.send('Song Stoped.')
   }
 }

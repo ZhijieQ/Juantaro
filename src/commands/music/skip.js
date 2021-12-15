@@ -67,7 +67,7 @@ module.exports = class SkipCommand extends commands.Command {
 		// Use for check user vote, only one vote/user
 		const map = info['client'].skipvote;
 		const listUser = map.get(msg.guild.id);
-		const skipNumber = parseInt(msg.member.voice.channel.members.size / 2) + 1;
+		const skipNumber = parseInt(msg.member.voice.channel.members.size / 2);
 
 		// If there is a listUser, means the users are voting.
 		if (listUser) {
@@ -93,7 +93,13 @@ module.exports = class SkipCommand extends commands.Command {
 
       let skipNumber = parseInt(msg.member.voice.channel.members.size / 2);
 
-      return msg.channel.send(`**${msg.author.username}** started a new vote to skip the current song. It takes **${skipNumber}** votes to skip.`)
+			msg.channel.send(`**${msg.author.username}** started a new vote to skip the current song. It takes **${skipNumber}** votes to skip.`)
+
+			if (listUser.length >= skipNumber)
+				await serverQueue.connection.dispatcher.end();
+				msg.channel.send('The current song has been skiped.');
+
+      return 
     }
   }
 }

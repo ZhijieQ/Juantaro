@@ -159,7 +159,7 @@ module.exports = class PlayCommand extends commands.Command {
 			}
 
 			// If there is a queue, add the song into it
-			if (serverQueue) {
+			if (serverQueue && serverQueue.connection) {
 				await serverQueue.songs.push(song);
 
 				// Use if there is a reproductor or playing
@@ -207,7 +207,7 @@ module.exports = class PlayCommand extends commands.Command {
 					// Now, we start playing the music
 					await play(guild, queueConstruct.songs[0])
 				} catch (error) {
-					msg.channel.send('There was a playback error, ask @!322787975630946306 to check pls.')
+					msg.channel.send('There was a playback error, ask <@!322787975630946306> to check pls.')
 				}
 			}
 		}

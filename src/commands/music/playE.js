@@ -236,7 +236,7 @@ module.exports = class PlayCommand extends commands.Command {
 					.setDescription(`${videos.map((video) => `**${++index}** - ${video.title}`).join('\n')}`)
 					.setColor('RANDOM')
 
-				msg.channel.send(embed);
+				msg.channel.send(embed).then(msg => setTimeout(() => msg.delete(), 30000)).catch(console.error);
 
 				let optionSearch;
 				// Ask author what video want to reproduce
@@ -246,6 +246,9 @@ module.exports = class PlayCommand extends commands.Command {
 						time: 30000,
 						errors: ['time']
 					});
+
+					/* Delete the embed message and the optionSearch */
+					msg.channel.bulkDelete(2)
 				} catch (error) {
 					return msg.channel.send('The search option is cancelled.')
 				}

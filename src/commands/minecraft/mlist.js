@@ -9,7 +9,7 @@ module.exports = class MinecraftCommand extends commands.Command {
   constructor(){
     super({
       name: 'mlist',
-      aliases: [],
+      aliases: ['ml'],
       args: [],
       category: 'minecraft',
       priority: 9,

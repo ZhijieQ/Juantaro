@@ -67,5 +67,8 @@ module.exports = class TestCommand extends commands.Command {
 		}else{
 			msg.channel.send(`Fuck you ${msg.author}!`)
 		}
+
+		// console.log(msg)
+		// console.log(info['client'].queue)
   }
 }
