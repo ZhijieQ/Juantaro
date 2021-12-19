@@ -306,7 +306,7 @@ module.exports = {
 
 							// Set all alias
 							for (var alias of command.aliases){
-								this.namesAliases.set(alias, command)
+								this.namesAliases.set(alias.toLowerCase(), command)
 							}
 
 							// Set command in the category

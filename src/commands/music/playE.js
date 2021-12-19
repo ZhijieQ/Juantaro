@@ -13,7 +13,7 @@ module.exports = class PlayCommand extends commands.Command {
   constructor(){
     super({
       name: 'playE',
-      aliases: [],
+      aliases: ['pE'],
       args: [
         new commands.Argument({
           optional: false,
@@ -207,7 +207,7 @@ module.exports = class PlayCommand extends commands.Command {
 					// Now, we start playing the music
 					await play(guild, queueConstruct.songs[0])
 				} catch (error) {
-					msg.channel.send('There was a playback error, ask @!322787975630946306 to check pls.')
+					msg.channel.send('There was a playback error, ask <@!322787975630946306> to check pls.')
 				}
 			}
 		}
