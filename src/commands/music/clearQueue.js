@@ -54,7 +54,7 @@ module.exports = class ClearQueueCommand extends commands.Command {
 		if(!serverQueue)
 			return msg.channel.send('No song is playing.')
 		
-		serverQueue.songs = [];
+		serverQueue.songs = [serverQueue.songs[0]];
 
 		return msg.channel.send('The queue has been cleaned.')
   }
