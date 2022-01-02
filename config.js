@@ -6,7 +6,7 @@ module.exports = {
 		invisible: 'invisible',
 		dnd: 'dnd',
 	},
-  activity: 'Working like Slave.',
+  activity: 'Working like a Slave. 😭',
   superusers: ['322787975630946306', '322795283681509376', '372364695354736641'],
   categories: [
     {name: 'test', priority: 5}, 

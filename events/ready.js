@@ -10,7 +10,8 @@ module.exports = async (client) => {
 	client.user.setStatus(config.status['online'])
 
 	// Set bot activity
-	client.user.setActivity(config.statusBOT);
+	client.user.setActivity(config.activity, {type: 5}).then(presence => console.log(`Activity set to: ${presence.activities[0].name}`))
+  .catch(console.error);
 
 	// Register the category from config.js
  	commands.registerCategories(config.categories);

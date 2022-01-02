@@ -236,7 +236,7 @@ module.exports = class PlayCommand extends commands.Command {
 					.setDescription(`${videos.map((video) => `**${++index}** - ${video.title}`).join('\n')}`)
 					.setColor('RANDOM')
 
-				msg.channel.send(embed).then(msg => setTimeout(() => msg.delete(), 30000)).catch(console.error);
+				msg.channel.send(embed).then(msg => setTimeout(() => msg.delete(), 30000)).catch(console.log('Message eliminated.'));
 
 				let optionSearch;
 				// Ask author what video want to reproduce

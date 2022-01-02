@@ -70,7 +70,7 @@ module.exports = class VolumeCommand extends commands.Command {
 		if(volume > 2 || volume < 0) return msg.channel.send('The volume valor should be between 0-2');
 
 		serverQueue.volume = volume;
-  	serverQueue.connection.dispatcher.setVolume(volume)
+  	await serverQueue.connection.dispatcher.setVolume(volume)
 
 		return msg.channel.send(`The bot volume is set to **${volume}**.`)
   }
