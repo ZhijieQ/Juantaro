@@ -105,6 +105,7 @@ module.exports = class PlayCommand extends commands.Command {
 				quality: "highestaudio"
 			})
 
+			let bugs = false;
 			// The dispatcher play to song.
 			var dispatcher = await serverQueue.connection.play(stream)
 				// Music finish event. Reproduce next song if has.
@@ -119,7 +120,22 @@ module.exports = class PlayCommand extends commands.Command {
 					await play(guild, serverQueue.songs[0])
 				})
 				// Error event.
-				.on('error', (error) => console.log(error));
+				.on('error', (error) => {
+					console.log(error)
+					if(error.statusCode == 410){
+						msg.channel.send("This music has age restriction.")
+					}else if(error.statusCode == 429){
+						msg.channel.send("Juantaro is get banned 😭.")
+					}else{
+						msg.channel.send("Can't find the audio for this song.")
+					}
+
+					// Wait for the bot to exit the voice channel
+					serverQueue.voiceChannel.leave();
+					
+					// Delete the queue from this server.
+					queue.delete(guild.id);
+				});
 
 			// Set audio volumen.
 			dispatcher.setVolume(serverQueue.volume);
