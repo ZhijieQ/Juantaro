@@ -85,7 +85,7 @@ module.exports = class MinecraftCommand extends commands.Command {
 			// console.log(response);
 		})
 		.catch((error) => {
-			msg.channel.send("The server is not open!");
+			msg.channel.send("The server is not open! The server ip that using now is: " + server.toString());
 			alive = false
 		});
 		

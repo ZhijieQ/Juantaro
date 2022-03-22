@@ -75,6 +75,7 @@ module.exports = class MinecraftCommand extends commands.Command {
 		const file = JSON.parse(fs.readFileSync(fileName, 'utf8'));
 		console.log(file)
 
+
 		/* If the Ip is not correct, finish then */
 		if(this.validator(args[0]) == false){
 			msg.channel.send('Pls check the IP first before using this command.')
@@ -93,6 +94,8 @@ module.exports = class MinecraftCommand extends commands.Command {
 			console.log('writed to ' + fileName);
 			msg.channel.send('The Ip of the Minecraft Server is Changed!');
 		});
+
+		fs.close()
 		return;
 		// if(msg.author.id != "433633517902102537" && msg.author.id != "322787975630946306"){
 		// 	msg.channel.send(`${msg.author}, You dont have permission to change Ip!`)
